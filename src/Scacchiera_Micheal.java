@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Scacchiera_Micheal {
@@ -30,6 +33,10 @@ public class Scacchiera_Micheal {
                     b.setBackground(Color.white);
                 }
                 ++i;
+
+
+                //image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("../Test/b_bishop_1x_ns.png")));
+               // b.setIcon(new ImageIcon(Objects.requireNonNull(b.getClass().getResource("../Test/b_bishop_1x_ns.png"))));
                 p1.add(b);
 
             }
