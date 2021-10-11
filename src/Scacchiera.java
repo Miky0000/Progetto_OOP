@@ -1,5 +1,6 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class Scacchiera {
-    JPanel Scacchiera= new JPanel();
+
 }

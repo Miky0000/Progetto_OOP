@@ -1,11 +1,11 @@
+import Pezzi_Scacchi.Pedone;
+
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Objects;
-import javax.imageio.ImageIO;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Scacchiera_Micheal {
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
 
         JFrame f=new JFrame("Scacchiera");
@@ -35,8 +35,19 @@ public class Scacchiera_Micheal {
                 ++i;
 
 
-                //image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResource("../Test/b_bishop_1x_ns.png")));
-               // b.setIcon(new ImageIcon(Objects.requireNonNull(b.getClass().getResource("../Test/b_bishop_1x_ns.png"))));
+
+
+                //b.setIcon(new ImageIcon(Objects.requireNonNull(b.getClass().getResource("/b_bishop_1x_ns.png"))));
+
+
+
+                /*
+                Image img = ImageIO.read(main.class.getResource("/b_bishop_png_128px.png"));
+                b.setIcon(new ImageIcon( new ImageIcon(img).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH)));
+                b.setIcon(new ImageIcon( new ImageIcon(Pezzi_Scacchi.Pedone.img).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH)));
+                */
+                b.setIcon(new ImageIcon(new Pedone("white").getImg()));
+
                 p1.add(b);
 
             }
