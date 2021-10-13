@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class NWbotton extends JButton {
     private int index;
+    private boolean valid;
     private JButton b;
 
     public NWbotton(int index) {
@@ -12,6 +13,15 @@ public class NWbotton extends JButton {
 
     public NWbotton() {
         this.b=new JButton();
+    }
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     public int getIndex() {

@@ -23,6 +23,7 @@ public class Test extends NWbotton implements ActionListener {
     public static void main(String[] args) {
 
         Pedone ni=new Pedone();
+        final NWbotton[] traccia = {new NWbotton()};
 
 //        ImageIcon icon = new ImageIcon("torre2.png"); esempio non funzionante
 
@@ -38,17 +39,42 @@ public class Test extends NWbotton implements ActionListener {
             for(int d=0;d<8;++d){
                 NWbotton s=new NWbotton();
                 s.setIndex(j);
+                s.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(e.getActionCommand()=="torre"){
+                            NWbotton b=(NWbotton) e.getSource();
+                            System.out.println(b.getIndex());
+                            griglia.get(b.getIndex()+8).setBackground(Color.red);
+                            griglia.get(b.getIndex()+8).setValid(true);
+                            traccia[0] =b;
+                        }
+                        if(e.getActionCommand()=="vuoto bianco"){
+                            NWbotton b=(NWbotton) e.getSource();
+                            if(b.isValid()==true){
+                                griglia.get(traccia[0].getIndex()).setIcon(null);
+                                griglia.get(b.getIndex()).setIcon(new ImageIcon(ni.getImg()));
+                                b.setBackground(Color.white);
+                                System.out.println(b.getIndex());
+
+                            }
+                        }
+                    }
+                });
                 if(i>=0&&i<=7) {
                     s.setIcon(new ImageIcon(ni.getImg()));
+                    s.setActionCommand("torre");
                 }
                 if(i>=63&&i<71) {
                     s.setIcon(new ImageIcon(ni.getImg()));
                 }
                 if (i % 2 == 0) {
                     s.setBackground(Color.black);
+                //    s.setActionCommand("vuoto bianco");
                 }
                 else {
                     s.setBackground(Color.white);
+                    s.setActionCommand("vuoto bianco");
                 }
                 griglia.put(j,s);
                 ++i;
@@ -61,8 +87,29 @@ public class Test extends NWbotton implements ActionListener {
         NWbotton prova=new NWbotton();
         prova.setIcon(new ImageIcon(ni.getImg()));
         prova.setIndex(1);
+        prova.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getActionCommand()=="torre"){
+                    NWbotton b=(NWbotton) e.getSource();
+                    System.out.println(b.getIndex());
+                    griglia.get(b.getIndex()+8).setBackground(Color.red);
+                    griglia.get(b.getIndex()+8).setValid(true);
+                    traccia[0] =b;
+                }
+                if(e.getActionCommand()=="vuoto bianco"){
+                    NWbotton b=(NWbotton) e.getSource();
+                    if(b.isValid()==true){
+                        griglia.get(traccia[0].getIndex()).setIcon(null);
+                        griglia.get(b.getIndex()).setIcon(new ImageIcon(ni.getImg()));
+                        b.setBackground(Color.white);
+                    }
+                }
+            }
+        });
         p2.add(prova);
         prova.setActionCommand("torre");
+        prova.setBackground(Color.white);
         System.out.println(prova);
         System.out.println(j);
 
@@ -88,10 +135,7 @@ public class Test extends NWbotton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand()=="torre"){
 
-            e.getSource().getClass().getMethods(getIndex());
-        }
     }
 }
 
