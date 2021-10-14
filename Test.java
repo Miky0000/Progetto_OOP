@@ -109,7 +109,7 @@ public class Test extends NWbotton implements ActionListener {
                         }
                         if(e.getActionCommand()=="vuoto nero"){
                             NWbotton b=(NWbotton) e.getSource();
-                            if(b.isValid()==true && traccia[0].getActionCommand()=="torre bianco g2"){
+                            if(b.isValid()==true && traccia[0].getActionCommand()=="torre bianco g2"){  //uguale al prima
                                 griglia.get(traccia[0].getIndex()).setIcon(null);
                                 griglia.get(b.getIndex()).setIcon(new ImageIcon(p.getImg()));
                                 b.setActionCommand("torre nero g2");
@@ -119,7 +119,7 @@ public class Test extends NWbotton implements ActionListener {
                                 System.out.println(b.getIndex());
 
                             }
-                            else if(b.isValid()==true && traccia[0].getActionCommand()=="torre bianco g1"){
+                            else if(b.isValid()==true && traccia[0].getActionCommand()=="torre bianco g1"){ //uguale al prima
                                 griglia.get(traccia[0].getIndex()).setIcon(null);
                                 griglia.get(b.getIndex()).setIcon(new ImageIcon(p.getImg()));
                                 b.setActionCommand("torre nero g1");
@@ -133,8 +133,9 @@ public class Test extends NWbotton implements ActionListener {
                     }
                 });
 
+                //creo le caselle vuote
                 if (i % 2 == 0) {
-                    s.setBackground(Color.black);
+                    s.setBackground(Color.black); //nere
                     s.setActionCommand("vuoto nero");
                     if(i>=0&&i<=7) {//torri g1
                         s.setIcon(new ImageIcon(p.getImg()));
@@ -146,7 +147,7 @@ public class Test extends NWbotton implements ActionListener {
                     }
                 }
                 else {
-                    s.setBackground(Color.white);
+                    s.setBackground(Color.white);   //bianche
                     s.setActionCommand("vuoto bianco");
                     if(i>=0&&i<=7) {//torrig1
                         s.setIcon(new ImageIcon(p.getImg()));
@@ -160,10 +161,10 @@ public class Test extends NWbotton implements ActionListener {
                 if(i>=63&&i<71) {
                     s.setIcon(new ImageIcon(p.getImg()));
                 }
-                griglia.put(j,s);
+                griglia.put(j,s);   //li inserisco nella hashmap
                 ++i;
                 ++j;
-                p1.add(s);
+                p1.add(s);  //aggiungo i bottoni al pannello ad ogni ciclo
             }
         }
 
