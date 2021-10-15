@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.text.AttributedCharacterIterator;
 import java.util.*;
 
-import Pezzi_Scacchi.Alfiere;
+import Pezzi_Scacchi.*;
 import Pezzi_Scacchi.Pedone;
 
 import static java.awt.Color.*;
@@ -65,23 +65,24 @@ public class Test  { //extends NWbotton implements ActionListener
                                 return;
                             for (Integer index: mosse) {
                                 griglia.get(index).setBackground(RED);
-                                griglia.get(index).setValid(true);
+
                             }
                             for (int i=0; i<64;i++){
-                                if (b.getIndex()!=i)
                                     griglia.get(i).setActionCommand("azione2");
                             }
                         }
                         if(Objects.equals(e.getActionCommand(), "azione2"))
                         {
                             NWbotton b= (NWbotton) e.getSource();
+
                             if (b.getBackground()==red) {
                                 b.restore();
                                 b.setPezzo(traccia[0].getPezzo());
                                 b.setIcon(new ImageIcon(b.getPezzo().getImg()));
                                 traccia[0].restore();
                             }
-                            else {
+                            else if (traccia[0]==b);
+                            else{
                                 return;
                             }
                             for (int i=0; i<64;i++) {
@@ -103,22 +104,67 @@ public class Test  { //extends NWbotton implements ActionListener
                     s.setBackground(Color.white);   //bianche
 
                 }
-                if (j==19){
+                if (j==0 || j==7){
+                    s.setPezzo(new Torre("black"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==1 || j==6){
+                    s.setPezzo(new Cavallo("black"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==2 || j==5){
                     s.setPezzo(new Alfiere("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
+                if (j==3){
+                    s.setPezzo(new Regina("black"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
                 if (j==4){
+                    s.setPezzo(new Re("black"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j>=8 && j<=15){
+                    s.setPezzo(new Pedone("black"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==56 || j==63){
+                    s.setPezzo(new Torre("white"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==57 || j==62){
+                    s.setPezzo(new Cavallo("white"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==58 || j==61){
+                    s.setPezzo(new Alfiere("white"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==59){
+                    s.setPezzo(new Regina("white"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j==60){
+                    s.setPezzo(new Re("white"));
+                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
+                    s.setActionCommand("azione1");
+                }
+                if (j>=48 && j<=55){
                     s.setPezzo(new Pedone("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
 
-                if (j>(63-8)){
-                    s.setPezzo(new Pedone("black"));
-                    s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
-                }
                 griglia.put(j,s);   //li inserisco nella hashmap
                 ++i;
                 ++j;
