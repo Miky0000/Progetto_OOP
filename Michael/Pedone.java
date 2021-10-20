@@ -16,10 +16,10 @@ public class Pedone extends PezzoScacchi{
         {
             try {
                 if(this.color=="white") {
-                    this.img = ImageIO.read(Pedone.class.getResource("../immagini_scacchi/PedoneBianco.png"));
+                    this.img = ImageIO.read(Pedone.class.getResource("../Immagini/PedoneBianco.png"));
                 }
                 else {
-                    this.img = ImageIO.read(Pedone.class.getResource("../immagini_scacchi/PedoneNero.png"));
+                    this.img = ImageIO.read(Pedone.class.getResource("../Immagini/PedoneNero.png"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -46,12 +46,6 @@ public class Pedone extends PezzoScacchi{
         if(this.color=="white"){
             out.add(I-8);
         }
-     /*   int h=0;
-        for(Integer i: out){
-            if(out.get(h)<0||out.get(h)>63){
-                out.remove(h);
-            }da controllare
-        }*/
         return out;
     }
 }

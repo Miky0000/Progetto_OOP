@@ -37,7 +37,9 @@ public class NWbotton extends JButton {
 
     public void setPezzo(PezzoScacchi pezzo) {
         this.pezzo = pezzo;
-        this.setIcon(new ImageIcon(pezzo.getImg()));
+        if(pezzo!=null){
+            this.setIcon(new ImageIcon(pezzo.getImg()));
+        }
     }
 
     public int getIndex() {

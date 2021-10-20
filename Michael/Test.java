@@ -20,11 +20,12 @@ import java.util.*;
 import static java.awt.Color.*;
 
 
-public class Test implements ActionListener {
+public class Test{
 
     public static void main(String[] args) {
 
-        JFrame f = new JFrame("Scacchiera");
+        MenùPrincipale Menuprincipale=new MenùPrincipale();
+/*        JFrame f = new JFrame("Scacchiera");
         JPanel gui = new JPanel(new BorderLayout());
 
         //variabili gestione pezzi
@@ -118,11 +119,6 @@ public class Test implements ActionListener {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(400, 400);
         f.setVisible(true);
-        f.setContentPane(gui);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
+        f.setContentPane(gui);*/
     }
 }
