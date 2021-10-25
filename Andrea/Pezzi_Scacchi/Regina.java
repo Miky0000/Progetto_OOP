@@ -1,13 +1,11 @@
-package Pezzi_Scacchi;
-
-import Tests.NWbotton;
+package Pk2;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Regina extends Pezzo_Scacchi {
+public class Regina extends PezzoScacchi {
     private String color;
     private Image img;
 
@@ -38,8 +36,8 @@ public class Regina extends Pezzo_Scacchi {
     @Override
     public ArrayList<Integer> getMoves(Integer I, Map<Integer, NWbotton> griglia) {
         ArrayList<Integer> out = new ArrayList<Integer>();
-        out.addAll(new Alfiere("black").getMoves(I,griglia));
-        out.addAll(new Torre("black").getMoves(I,griglia));
+        out.addAll(new Alfiere(this.color).getMoves(I,griglia));
+        out.addAll(new Torre(this.color).getMoves(I,griglia));
         return out;
     }
 }

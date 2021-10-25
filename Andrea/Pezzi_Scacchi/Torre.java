@@ -1,13 +1,11 @@
-package Pezzi_Scacchi;
-
-import Tests.NWbotton;
+package Pk2;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Torre extends Pezzo_Scacchi {
+public class Torre extends PezzoScacchi {
     private  String color;
     private Image img;
 
@@ -44,26 +42,46 @@ public class Torre extends Pezzo_Scacchi {
         int tmpy=y;
         while(tmpy>0 && tmpy<=7){
             tmpy-=1;
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
+                break;
+            }
             out.add(tmpx+tmpy*8);
         }
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+            out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpy>=0 && tmpy<7){
             tmpy+=1;
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
+                break;
+            }
             out.add(tmpx+tmpy*8);
         }
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+            out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpx>0 && tmpx<=7){
             tmpx-=1;
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
+                break;
+            }
             out.add(tmpx+tmpy*8);
         }
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+            out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpx>=0 && tmpx<7){
             tmpx+=1;
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
+                break;
+            }
             out.add(tmpx+tmpy*8);
         }
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+            out.add(tmpx+tmpy*8);
         return out;
     }
 }

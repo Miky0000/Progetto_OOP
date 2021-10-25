@@ -1,13 +1,11 @@
-package Pezzi_Scacchi;
-
-import Tests.NWbotton;
+package Pk2;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Re extends Pezzo_Scacchi {
+public class Re extends PezzoScacchi {
     private  String color;
     private Image img;
 
@@ -17,6 +15,11 @@ public class Re extends Pezzo_Scacchi {
 
     public Image getImg() {
         return img;
+    }
+
+    @Override
+    public String toString() {
+        return "Re";
     }
 
     public Re(String color) {
@@ -49,7 +52,7 @@ public class Re extends Pezzo_Scacchi {
                 tmpy=y+values[j];
                 if (tmpx>=0 && tmpx <=7 && tmpy>=0 && tmpy<=7 && (Math.abs(values[i])+Math.abs(values[j])!=0)) //300iq algorithm
                     if (griglia.get(tmpx+tmpy*8).getPezzo()==null || !(griglia.get(tmpx+tmpy*8).getPezzo().getColor().equals(this.color))) // copiare questo if sopra ogni out.add
-                    out.add(tmpx+tmpy*8);
+                        out.add(tmpx+tmpy*8);
 
             }
         }

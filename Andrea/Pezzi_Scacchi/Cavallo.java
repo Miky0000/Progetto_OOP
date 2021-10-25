@@ -1,13 +1,11 @@
-package Pezzi_Scacchi;
-
-import Tests.NWbotton;
+package Pk2;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Cavallo extends Pezzo_Scacchi {
+public class Cavallo extends PezzoScacchi {
     private  String color;
     private Image img;
 
@@ -45,10 +43,15 @@ public class Cavallo extends Pezzo_Scacchi {
         int tmpx,tmpy;
         for (int i=0; i<4;i++){
             tmpx=x+values[i];
-            for (int j=0; j<4; j++){
-                tmpy=y+values[j];
-                if (tmpx>=0 && tmpx <=7 && tmpy>=0 && tmpy<=7 && (Math.abs(values[i])+Math.abs(values[j])==3)) //300iq algorithm
-                    out.add(tmpx+tmpy*8);
+            for (int j=0; j<4; j++) {
+                tmpy = y + values[j];
+                if (tmpx >= 0 && tmpx <= 7 && tmpy >= 0 && tmpy <= 7 && (Math.abs(values[i]) + Math.abs(values[j]) == 3)) //300iq algorithm
+                    if (griglia.get(tmpx + tmpy * 8).getActionCommand() != "azione1") {
+                        out.add(tmpx + tmpy * 8);
+                    }
+                    else if (griglia.get(tmpx + tmpy * 8).getPezzo() != null && griglia.get(tmpx + tmpy * 8).getPezzo().getColor() != griglia.get(I).getPezzo().getColor()) {  //300 iq per capire + 300 per implementare = 600 iq condizion controllo che il pezzo sia avversario o meno e che sia diverso da null
+                        out.add(tmpx + tmpy * 8);
+                    }
 
             }
         }
