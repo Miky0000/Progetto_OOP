@@ -9,7 +9,12 @@ public class Alfiere extends PezzoScacchi {
         private  String color;
         private Image img;
 
-        public String getColor() {
+    @Override
+    public String toString() {
+        return "Alfiere";
+    }
+
+    public String getColor() {
             return color;
         }
 
