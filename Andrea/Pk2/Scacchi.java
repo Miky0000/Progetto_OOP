@@ -4,9 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Scacchi {
+
+    String giocatore1;
+    String giocatore2;
 
     JFrame f = new JFrame("Scacchiera");
     JPanel gui = new JPanel(new BorderLayout());
@@ -15,8 +21,7 @@ public class Scacchi {
     final NWbotton[] traccia = {new NWbotton()};    //NWbotton per tenere traccia
     boolean turno=false; //true=bianco false=nero
     boolean tracciat=true;
-    PezzoScacchi[] pezzineri=new PezzoScacchi[16]; //array di pezzi neri per controllare lo scacco. index re:12
-    PezzoScacchi[] pezzibianchi=new PezzoScacchi[16]; //come sopra; index re:12
+
     boolean scacconero=false;
     boolean scaccobianco=false;
     int posizionerebianco=-1;
@@ -55,12 +60,16 @@ public class Scacchi {
     JPanel p2=new JPanel(new GridLayout(1,8,2,2));
     JPanel p3=new JPanel(new GridLayout(8,1,2,2));
     JPanel p4=new JPanel(new BorderLayout());
-    JPanel p5=new JPanel(new GridLayout(6,3,2,2));
+    JPanel p5=new JPanel(new GridLayout(7,3,2,2));
     JPanel p6=new JPanel();
     JPanel p7=new JPanel();
     JButton tornaindietro=new JButton("MENU PRINCIPALE");
 
-    Scacchi() {
+    Scacchi(String giocatore1, String giocatore2) {
+
+        this.giocatore1 = giocatore1;
+        this.giocatore2 = giocatore2;
+        
         //creo le label 1-8
         JLabel label = new JLabel("");
         p2.add(label);
@@ -81,13 +90,13 @@ public class Scacchi {
                         NWbotton b=(NWbotton) e.getSource();
                         if(e.getActionCommand()=="azione1"){    //premo un pezzo
                             ArrayList<Integer> mosse=b.getPezzo().getMoves(b.getIndex(), griglia);  //genero l'array di mosse possibili
-                            // System.out.println("setto azione2");  //stampa di debug
+                            System.out.println("setto azione2");
                             b.setActionCommand("azione2");  //setto il bottone premuto in caso non si esegua nessuna mossa cosi da annullare le mosse in seguito
                                     if(mosse.isEmpty()){
                                         System.out.println("mosse è vuoto");
                                     }
                                     for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
-                                        // System.out.println("coloro di rosso"); //debug
+                                        System.out.println("coloro di rosso");
                                         griglia.get(f).setBackground(Color.red);
                                         griglia.get(f).setActionCommand("azione2");
                                     }
@@ -95,7 +104,7 @@ public class Scacchi {
                                 //variabile per scorrere il for
                             for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
                                 if(griglia.get(c).getBackground()==Color.red) {
-                                    // System.out.println("controllo se ci sono rossi in più"); //debug
+                                    System.out.println("controllo se ci sono rossi in più");
                                     for(Integer j:mosse){
                                         if(!mosse.contains(griglia.get(c).getIndex())){ //controllo che le mosse che non sono valide e le ripristino
                                             System.out.println("cancella cambio"+griglia.get(c).getIndex());
@@ -117,56 +126,56 @@ public class Scacchi {
 
                         if(e.getActionCommand()=="azione2"){    //sposto il pezzo sul rosso
                             ArrayList<Integer> mosse=traccia[0].getPezzo().getMoves(traccia[0].getIndex(), griglia);    //genero l'array di mosse possibili del pedone traccia
-                            // System.out.println("azione2");
+                            System.out.println("azione2");
                             if(b.getIndex()!=traccia[0].getIndex()) {
                                 if(b.getPezzo()!=null){ //controllo i pezzi mangiati
                                     System.out.println("mangiato");
-                                    if(b.getPezzo().equals(pen.getPezzo())) {
+                                    if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(ton.getPezzo())) {
+                                    if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile
                                         ton.setText(": "+tn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(can.getPezzo())) {
+                                    if(b.getPezzo().equals(can.getPezzo()) && b.getPezzo().getColor().equals(can.getPezzo().getColor())) {
                                         ++cn;  //incremento la variabile
                                         can.setText(": "+cn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(aln.getPezzo())) {
+                                    if(b.getPezzo().equals(aln.getPezzo()) && b.getPezzo().getColor().equals(aln.getPezzo().getColor())) {
                                         ++an;  //incremento la variabile
                                         aln.setText(": "+an);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(qun.getPezzo())) {
+                                    if(b.getPezzo().equals(qun.getPezzo()) && b.getPezzo().getColor().equals(qun.getPezzo().getColor())) {
                                         ++qn;  //incremento la variabile
                                         qun.setText(": "+qn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(kin.getPezzo())) {
+                                    if(b.getPezzo().equals(kin.getPezzo()) && b.getPezzo().getColor().equals(kin.getPezzo().getColor())) {
                                         ++kn;  //incremento la variabile
                                         kin.setText(": "+kn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(peb.getPezzo())) {
+                                    if(b.getPezzo().equals(peb.getPezzo())&&b.getPezzo().getColor().equals(peb.getPezzo().getColor())) {
                                         ++pb;  //incremento la variabile
                                         peb.setText(": "+pb);   //risetto la label
                                     }
 
-                                    if(b.getPezzo().equals(tob.getPezzo())) {
+                                    if(b.getPezzo().equals(tob.getPezzo()) && b.getPezzo().getColor().equals(tob.getPezzo().getColor())) {
                                         ++tb;  //incremento la variabile
                                         tob.setText(": "+tb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(cab.getPezzo())) {
+                                    if(b.getPezzo().equals(cab.getPezzo()) && b.getPezzo().getColor().equals(cab.getPezzo().getColor())) {
                                         ++cb;  //incremento la variabile
                                         cab.setText(": "+cb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(alb.getPezzo())) {
+                                    if(b.getPezzo().equals(alb.getPezzo()) && b.getPezzo().getColor().equals(alb.getPezzo().getColor())) {
                                         ++ab;  //incremento la variabile
                                         alb.setText(": "+ab);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(qub.getPezzo())) {
+                                    if(b.getPezzo().equals(qub.getPezzo()) && b.getPezzo().getColor().equals(qub.getPezzo().getColor())) {
                                         ++qb;  //incremento la variabile
                                         qub.setText(": "+qb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(kib.getPezzo())) {
+                                    if(b.getPezzo().equals(kib.getPezzo()) && b.getPezzo().getColor().equals(kib.getPezzo().getColor())) {
                                         ++kb;  //incremento la variabile
                                         kib.setText(": "+kb);   //risetto la label
                                     }
@@ -177,8 +186,6 @@ public class Scacchi {
                                 traccia[0].setActionCommand(null);     //annullo actioncommad
                                 traccia[0].setPezzo(null);
                                 tracciat=false;
-
-                                System.out.println(turno);
                                 HashSet<Integer> h =new HashSet<Integer>(); //tutte le mosse possibili del bianco
                                 if (!turno) {
                                     for (int i = 0; i < 64; i++) {
@@ -251,7 +258,6 @@ public class Scacchi {
                                         }
                                     }
                                 }
-
                                 turno=!turno;   //cambio turno
                             }
                         }
@@ -294,98 +300,74 @@ public class Scacchi {
                     s.setColore(Color.white);
                 }
                 //riempio i pedoni neri
-                if(i>=8&&i<=16){
-                    int k=i-8;
-                    pezzineri[k]=new Pedone("black");
-                    s.setPezzo(pezzineri[k]);
+                if(i>=8&&i<=16) {
+                    s.setPezzo(new Pedone("black"));
                     s.setIcon(new ImageIcon(s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //riempio i pedoni bianchi
                 if(i>=54&&i<62) {
-                    int k=i-54;
-                    pezzibianchi[k]=new Pedone("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Pedone("white"));
                     s.setIcon(new ImageIcon(s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
                 //torri nere
                 if (j==0 || j==7){
-                    int k=8+j;
-                    pezzineri[k]=new Torre("black");
-                    s.setPezzo(pezzineri[k]);
+                    s.setPezzo(new Torre("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //cavalli neri
                 if (j==1 || j==6){
-                    int k=8+j;
-                    pezzineri[k]=new Cavallo("black");
-                    s.setPezzo(pezzineri[k]);
+                    s.setPezzo(new Cavallo("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //alfieri neri
                 if (j==2 || j==5){
-                    int k=8+j;
-                    pezzineri[k]=new Alfiere("black");
-                    s.setPezzo(pezzineri[k]);
+                    s.setPezzo(new Alfiere("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //regina nera
                 if (j==3){
-                    int k=8+j;
-                    pezzineri[k]=new Regina("black");
-                    s.setPezzo(pezzineri[k]);
+                    s.setPezzo(new Regina("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //re nero
                 if (j==4){
-                    int k=8+j;
-                    pezzineri[k]=new Re("black");
-                    s.setPezzo(pezzineri[k]);
+                    s.setPezzo(new Re("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //torri bianche
                 if (j==56 || j==63){
-                    int k=j-48;
-                    pezzibianchi[k]=new Torre("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Torre("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
                 //cavalli bianchi
                 if (j==57 || j==62){
-                    int k=j-48;
-                    pezzibianchi[k]=new Cavallo("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Cavallo("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
                 //alfieri bianchi
                 if (j==58 || j==61){
-                    int k=j-48;
-                    pezzibianchi[k]=new Alfiere("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Alfiere("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
                 //regina bianca
                 if (j==59){
-                    int k=j-48;
-                    pezzibianchi[k]=new Regina("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Regina("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
                 //re bianco
                 if (j==60){
-                    int k=j-48;
-                    pezzibianchi[k]=new Re("white");
-                    s.setPezzo(pezzibianchi[k]);
+                    s.setPezzo(new Re("white"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
                     s.setActionCommand("azione1");
                 }
@@ -426,6 +408,10 @@ public class Scacchi {
         //aggiungo i pezzi mangiati
 
 
+        p5.add(new JLabel(giocatore1));
+        p5.add(new JLabel());
+        p5.add(new JLabel(giocatore2));
+        p5.add(new JLabel());
         p5.add(pen);
         p5.add(new JLabel());
         p5.add(peb);
