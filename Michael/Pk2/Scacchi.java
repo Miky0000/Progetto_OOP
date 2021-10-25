@@ -10,6 +10,9 @@ import java.util.Map;
 
 public class Scacchi {
 
+    String giocatore1;
+    String giocatore2;
+
     JFrame f = new JFrame("Scacchiera");
     JPanel gui = new JPanel(new BorderLayout());
 
@@ -17,6 +20,7 @@ public class Scacchi {
     final NWbotton[] traccia = {new NWbotton()};    //NWbotton per tenere traccia
     boolean turno=false; //true=bianco false=nero
     boolean tracciat=true;
+
     //variabili per tenere conto dei pezzi mangiati
     int pn=0;
     int tn=0;
@@ -50,12 +54,16 @@ public class Scacchi {
     JPanel p2=new JPanel(new GridLayout(1,8,2,2));
     JPanel p3=new JPanel(new GridLayout(8,1,2,2));
     JPanel p4=new JPanel(new BorderLayout());
-    JPanel p5=new JPanel(new GridLayout(6,3,2,2));
+    JPanel p5=new JPanel(new GridLayout(7,3,2,2));
     JPanel p6=new JPanel();
     JPanel p7=new JPanel();
     JButton tornaindietro=new JButton("MENU PRINCIPALE");
 
-    Scacchi() {
+    Scacchi(String giocatore1, String giocatore2) {
+
+        this.giocatore1 = giocatore1;
+        this.giocatore2 = giocatore2;
+        
         //creo le label 1-8
         JLabel label = new JLabel("");
         p2.add(label);
@@ -116,52 +124,52 @@ public class Scacchi {
                             if(b.getIndex()!=traccia[0].getIndex()) {
                                 if(b.getPezzo()!=null){ //controllo i pezzi mangiati
                                     System.out.println("mangiato");
-                                    if(b.getPezzo().equals(pen.getPezzo())) {
+                                    if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(ton.getPezzo())) {
+                                    if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile
                                         ton.setText(": "+tn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(can.getPezzo())) {
+                                    if(b.getPezzo().equals(can.getPezzo()) && b.getPezzo().getColor().equals(can.getPezzo().getColor())) {
                                         ++cn;  //incremento la variabile
                                         can.setText(": "+cn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(aln.getPezzo())) {
+                                    if(b.getPezzo().equals(aln.getPezzo()) && b.getPezzo().getColor().equals(aln.getPezzo().getColor())) {
                                         ++an;  //incremento la variabile
                                         aln.setText(": "+an);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(qun.getPezzo())) {
+                                    if(b.getPezzo().equals(qun.getPezzo()) && b.getPezzo().getColor().equals(qun.getPezzo().getColor())) {
                                         ++qn;  //incremento la variabile
                                         qun.setText(": "+qn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(kin.getPezzo())) {
+                                    if(b.getPezzo().equals(kin.getPezzo()) && b.getPezzo().getColor().equals(kin.getPezzo().getColor())) {
                                         ++kn;  //incremento la variabile
                                         kin.setText(": "+kn);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(peb.getPezzo())) {
+                                    if(b.getPezzo().equals(peb.getPezzo())&&b.getPezzo().getColor().equals(peb.getPezzo().getColor())) {
                                         ++pb;  //incremento la variabile
                                         peb.setText(": "+pb);   //risetto la label
                                     }
 
-                                    if(b.getPezzo().equals(tob.getPezzo())) {
+                                    if(b.getPezzo().equals(tob.getPezzo()) && b.getPezzo().getColor().equals(tob.getPezzo().getColor())) {
                                         ++tb;  //incremento la variabile
                                         tob.setText(": "+tb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(cab.getPezzo())) {
+                                    if(b.getPezzo().equals(cab.getPezzo()) && b.getPezzo().getColor().equals(cab.getPezzo().getColor())) {
                                         ++cb;  //incremento la variabile
                                         cab.setText(": "+cb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(alb.getPezzo())) {
+                                    if(b.getPezzo().equals(alb.getPezzo()) && b.getPezzo().getColor().equals(alb.getPezzo().getColor())) {
                                         ++ab;  //incremento la variabile
                                         alb.setText(": "+ab);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(qub.getPezzo())) {
+                                    if(b.getPezzo().equals(qub.getPezzo()) && b.getPezzo().getColor().equals(qub.getPezzo().getColor())) {
                                         ++qb;  //incremento la variabile
                                         qub.setText(": "+qb);   //risetto la label
                                     }
-                                    if(b.getPezzo().equals(kib.getPezzo())) {
+                                    if(b.getPezzo().equals(kib.getPezzo()) && b.getPezzo().getColor().equals(kib.getPezzo().getColor())) {
                                         ++kb;  //incremento la variabile
                                         kib.setText(": "+kb);   //risetto la label
                                     }
@@ -247,7 +255,7 @@ public class Scacchi {
                 if(i>=8&&i<=16) {
                     s.setPezzo(new Pedone("black"));
                     s.setIcon(new ImageIcon(s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //riempio i pedoni bianchi
                 if(i>=54&&i<62) {
@@ -259,31 +267,31 @@ public class Scacchi {
                 if (j==0 || j==7){
                     s.setPezzo(new Torre("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //cavalli neri
                 if (j==1 || j==6){
                     s.setPezzo(new Cavallo("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //alfieri neri
                 if (j==2 || j==5){
                     s.setPezzo(new Alfiere("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //regina nera
                 if (j==3){
                     s.setPezzo(new Regina("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //re nero
                 if (j==4){
                     s.setPezzo(new Re("black"));
                     s.setIcon(new ImageIcon( s.getPezzo().getImg()));
-                    s.setActionCommand("azione1");
+                    //s.setActionCommand("azione1");
                 }
                 //torri bianche
                 if (j==56 || j==63){
@@ -352,6 +360,10 @@ public class Scacchi {
         //aggiungo i pezzi mangiati
 
 
+        p5.add(new JLabel(giocatore1));
+        p5.add(new JLabel());
+        p5.add(new JLabel(giocatore2));
+        p5.add(new JLabel());
         p5.add(pen);
         p5.add(new JLabel());
         p5.add(peb);

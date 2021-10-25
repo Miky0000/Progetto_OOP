@@ -50,7 +50,8 @@ public class MenùPrincipale implements ActionListener {
 
         if(e.getSource()==ScacchiButton){
             frame.dispose();
-            Scacchi Scacchi=new Scacchi();
+            SelezionaGiocatore selezione=new SelezionaGiocatore();
+
         }
 
     }
