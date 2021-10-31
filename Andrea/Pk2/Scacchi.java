@@ -186,6 +186,28 @@ public class Scacchi {
                                 traccia[0].setActionCommand(null);     //annullo actioncommad
                                 traccia[0].setPezzo(null);
                                 tracciat=false;
+
+                                // promozione del pedone
+
+                                if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("black")&& b.getIndex()/8==7) {
+                                    String pezzi[] = {"Regina", "Cavallo"};
+                                    String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
+                                    if (scelta.equals("Regina"))
+                                        b.setPezzo(new Regina("black"));
+                                    else
+                                        b.setPezzo(new Cavallo("black"));
+                                }
+                                if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("white")&& b.getIndex()/8==0) {
+                                    String pezzi[] = {"Regina", "Cavallo"};
+                                    String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
+                                    if (scelta.equals("Regina"))
+                                        b.setPezzo(new Regina("white"));
+                                    else
+                                        b.setPezzo(new Cavallo("white"));
+                                }
+                                // fine promozione
+
+
                                 HashSet<Integer> h =new HashSet<Integer>(); //tutte le mosse possibili del bianco
                                 if (!turno) {
                                     for (int i = 0; i < 64; i++) {
@@ -197,6 +219,8 @@ public class Scacchi {
                                     }
                                     if (h.contains(posizionerenero))
                                         scacconero = true;
+                                    else
+                                        scacconero=false;
                                     if (scacconero) {
                                         System.out.println("Scacco al re nero");
                                         HashSet<Integer> mossere =new HashSet<Integer>();
@@ -218,8 +242,10 @@ public class Scacchi {
                                     }
                                     if (h.contains(posizionerebianco))
                                         scaccobianco = true;
+                                    else
+                                        scaccobianco = false;
                                     if (scaccobianco) {
-                                        System.out.println("Scacco al re nero");
+                                        System.out.println("Scacco al re bianco");
                                         HashSet<Integer> mossere = new HashSet<Integer>();
                                         mossere.addAll(griglia.get(posizionerebianco).getPezzo().getMoves(posizionerebianco, griglia));
                                         mossere.removeAll(h);
@@ -291,7 +317,7 @@ public class Scacchi {
                     kib.setText(": "+kb);
                 }
                 //creo le caselle vuote
-                if (i % 2 == 0) {
+                if (i % 2 == 1) {
                     s.setBackground(Color.black); //nere
                     s.setColore(Color.black);
                 }

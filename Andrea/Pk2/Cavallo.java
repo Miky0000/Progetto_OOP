@@ -50,7 +50,7 @@ public class Cavallo extends PezzoScacchi {
                         out.add(tmpx + tmpy * 8);
                     }
                     else if (griglia.get(tmpx + tmpy * 8).getPezzo() != null && griglia.get(tmpx + tmpy * 8).getPezzo().getColor() != griglia.get(I).getPezzo().getColor()) {  //300 iq per capire + 300 per implementare = 600 iq condizion controllo che il pezzo sia avversario o meno e che sia diverso da null
-                        out.add(tmpx + tmpy * 8);
+                            out.add(tmpx + tmpy * 8);
                     }
 
             }
