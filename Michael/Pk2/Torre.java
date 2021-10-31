@@ -42,45 +42,45 @@ public class Torre extends PezzoScacchi {
         int tmpy=y;
         while(tmpy>0 && tmpy<=7){
             tmpy-=1;
-            if(griglia.get(tmpx+tmpy*8).getActionCommand()=="azione1") {     //controllo che non ci sia un pezzo
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
                 break;
             }
             out.add(tmpx+tmpy*8);
         }
-        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
             out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpy>=0 && tmpy<7){
             tmpy+=1;
-            if(griglia.get(tmpx+tmpy*8).getActionCommand()=="azione1") {     //controllo che non ci sia un pezzo
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
                 break;
             }
             out.add(tmpx+tmpy*8);
         }
-        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
             out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpx>0 && tmpx<=7){
             tmpx-=1;
-            if(griglia.get(tmpx+tmpy*8).getActionCommand()=="azione1") {     //controllo che non ci sia un pezzo
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
                 break;
             }
             out.add(tmpx+tmpy*8);
         }
-        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
             out.add(tmpx+tmpy*8);
         tmpx=x;
         tmpy=y;
         while(tmpx>=0 && tmpx<7){
             tmpx+=1;
-            if(griglia.get(tmpx+tmpy*8).getActionCommand()=="azione1") {     //controllo che non ci sia un pezzo
+            if(griglia.get(tmpx+tmpy*8).getPezzo()!=null) {     //controllo che non ci sia un pezzo
                 break;
             }
             out.add(tmpx+tmpy*8);
         }
-        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+        if(griglia.get(tmpx+tmpy*8).getPezzo()!=null && griglia.get(tmpx+tmpy*8).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
             out.add(tmpx+tmpy*8);
         return out;
     }

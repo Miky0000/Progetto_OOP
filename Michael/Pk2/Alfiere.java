@@ -9,7 +9,12 @@ public class Alfiere extends PezzoScacchi {
         private  String color;
         private Image img;
 
-        public String getColor() {
+    @Override
+    public String toString() {
+        return "Alfiere";
+    }
+
+    public String getColor() {
             return color;
         }
 
@@ -39,51 +44,52 @@ public class Alfiere extends PezzoScacchi {
             while (i%8!=0 && i/8!=7) // diagonale in basso a SX
             {
                 i += 7;
-                if(griglia.get(i).getActionCommand()=="azione1" || griglia.get(i).getActionCommand()==null) {     //controllo che non ci sia un pezzo
+                if(griglia.get(i).getPezzo()!=null) {     //controllo che non ci sia un pezzo
                     break;
                 }
                 if (I != i)
                     out.add(i);
             }
-            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())  //controllo che il pezzo sia avversario o meno e che sia diverso da null
+            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=this.color)  //controllo che il pezzo sia avversario o meno e che sia diverso da null
                 out.add(i);
             i=I;
             while (i%8!=7 && i/8!=7) //diagonale in basso a dx
             {
                 i+=9;
-                if(griglia.get(i).getActionCommand()=="azione1" || griglia.get(i).getActionCommand()==null) {
+                if((griglia.get(i).getPezzo()!=null))
+                {
                     break;
                 }
                 if(I!=i)
                     out.add(i);
             }
-            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())
+            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=this.color)
                   out.add(i);
             i=I;
 
             while (i%8!=0 && i/8!=0) //diagonale in alto a sx
             {
                 i-=9;
-                if(griglia.get(i).getActionCommand()=="azione1" || griglia.get(i).getActionCommand()==null) {
+                if(griglia.get(i).getPezzo()!=null)  {
                     break;
                 }
                 if(I!=i)
                     out.add(i);
             }
-            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())
+            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=this.color)
                   out.add(i);
             i=I;
 
             while (i%8!=7 && i/8!=0) //diagonale in alto a dx
             {
                 i-=7;
-                if(griglia.get(i).getActionCommand()=="azione1" || griglia.get(i).getActionCommand()==null) {
+                if(griglia.get(i).getPezzo()!=null)  {
                     break;
                 }
                 if(I!=i)
                     out.add(i);
             }
-            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=griglia.get(I).getPezzo().getColor())
+            if(griglia.get(i).getPezzo()!=null && griglia.get(i).getPezzo().getColor()!=this.color)
                   out.add(i);
 
 

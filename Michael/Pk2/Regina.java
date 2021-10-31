@@ -36,8 +36,8 @@ public class Regina extends PezzoScacchi {
     @Override
     public ArrayList<Integer> getMoves(Integer I, Map<Integer, NWbotton> griglia) {
         ArrayList<Integer> out = new ArrayList<Integer>();
-        out.addAll(new Alfiere("black").getMoves(I,griglia));
-        out.addAll(new Torre("black").getMoves(I,griglia));
+        out.addAll(new Alfiere(this.color).getMoves(I,griglia));
+        out.addAll(new Torre(this.color).getMoves(I,griglia));
         return out;
     }
 }

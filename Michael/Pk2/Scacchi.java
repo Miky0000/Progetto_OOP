@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Scacchi {
@@ -18,8 +20,15 @@ public class Scacchi {
 
     //variabili gestione pezzi
     final NWbotton[] traccia = {new NWbotton()};    //NWbotton per tenere traccia
+    //String trasforma[]= {"Regina","Alfiere","cavallo","torre"};
+    //String trascelta= //variabile che deve contenere la stringa scelta
     boolean turno=false; //true=bianco false=nero
     boolean tracciat=true;
+
+    boolean scacconero=false;
+    boolean scaccobianco=false;
+    int posizionerebianco=-1;
+    int posizionerenero=-1;
 
     //variabili per tenere conto dei pezzi mangiati
     int pn=0;
@@ -63,7 +72,7 @@ public class Scacchi {
 
         this.giocatore1 = giocatore1;
         this.giocatore2 = giocatore2;
-        
+
         //creo le label 1-8
         JLabel label = new JLabel("");
         p2.add(label);
@@ -86,16 +95,14 @@ public class Scacchi {
                             ArrayList<Integer> mosse=b.getPezzo().getMoves(b.getIndex(), griglia);  //genero l'array di mosse possibili
                             System.out.println("setto azione2");
                             b.setActionCommand("azione2");  //setto il bottone premuto in caso non si esegua nessuna mossa cosi da annullare le mosse in seguito
-                                    if(mosse.isEmpty()){
-                                        System.out.println("mosse è vuoto");
-                                    }
-                                    for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
-                                        System.out.println("coloro di rosso");
-                                        griglia.get(f).setBackground(Color.red);
-                                        griglia.get(f).setActionCommand("azione2");
-                                    }
-
-                                //variabile per scorrere il for
+                            if(mosse.isEmpty()){
+                                System.out.println("mosse è vuoto");
+                            }
+                            for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
+                                System.out.println("coloro di rosso");
+                                griglia.get(f).setBackground(Color.red);
+                                griglia.get(f).setActionCommand("azione2");
+                            }
                             for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
                                 if(griglia.get(c).getBackground()==Color.red) {
                                     System.out.println("controllo se ci sono rossi in più");
@@ -127,6 +134,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
+                                        //JOptionPane.showInputDialog(f,"Seleziona Pezzo:","Nuovo pezzo",JOptionPane.PLAIN_MESSAGE,null,trasforma,"Regina");
+
                                     }
                                     if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile
@@ -147,6 +156,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(kin.getPezzo()) && b.getPezzo().getColor().equals(kin.getPezzo().getColor())) {
                                         ++kn;  //incremento la variabile
                                         kin.setText(": "+kn);   //risetto la label
+                                        f.dispose();
+                                        Vittoria vintob=new Vittoria(giocatore2);
                                     }
                                     if(b.getPezzo().equals(peb.getPezzo())&&b.getPezzo().getColor().equals(peb.getPezzo().getColor())) {
                                         ++pb;  //incremento la variabile
@@ -172,6 +183,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(kib.getPezzo()) && b.getPezzo().getColor().equals(kib.getPezzo().getColor())) {
                                         ++kb;  //incremento la variabile
                                         kib.setText(": "+kb);   //risetto la label
+                                        f.dispose();
+                                        Vittoria vinton=new Vittoria(giocatore1);
                                     }
 
                                 }
@@ -180,8 +193,43 @@ public class Scacchi {
                                 traccia[0].setActionCommand(null);     //annullo actioncommad
                                 traccia[0].setPezzo(null);
                                 tracciat=false;
+                                HashSet<Integer> h =new HashSet<Integer>(); //tutte le mosse possibili del bianco
+                                if (!turno) {
+                                    for (int i = 0; i < 64; i++) {
+                                        NWbotton button = griglia.get(i);
+                                        if (button.getPezzo() != null && button.getPezzo().getColor().equals("white"))
+                                            h.addAll(button.getPezzo().getMoves(i, griglia));
+                                        if (button.getPezzo() != null && button.getPezzo().toString().equals("Re") && button.getPezzo().getColor().equals("black"))
+                                            posizionerenero = i; //posizione re nero
+                                    }
+                                    if (h.contains(posizionerenero))
+                                        scacconero = true;
+                                    if (scacconero) {
+                                        JOptionPane.showMessageDialog(f,"Scacco al re nero");
+                                        HashSet<Integer> mossere =new HashSet<Integer>();
+                                        mossere.addAll(griglia.get(posizionerenero).getPezzo().getMoves(posizionerenero,griglia));
+                                        mossere.removeAll(h);
+                                    }
+                                }
+                                else{
+                                    for (int i = 0; i < 64; i++) {
+                                        NWbotton button = griglia.get(i);
+                                        if (button.getPezzo() != null && button.getPezzo().getColor().equals("black"))
+                                            h.addAll(button.getPezzo().getMoves(i, griglia));
+                                        if (button.getPezzo() != null && button.getPezzo().toString().equals("Re") && button.getPezzo().getColor().equals("white"))
+                                            posizionerebianco = i; //posizione re nero
+                                    }
+                                    if (h.contains(posizionerebianco))
+                                        scaccobianco = true;
+                                    if (scaccobianco) {
+                                        JOptionPane.showMessageDialog(f,"Scacco al re bianco");
+                                        HashSet<Integer> mossere = new HashSet<Integer>();
+                                        mossere.addAll(griglia.get(posizionerebianco).getPezzo().getMoves(posizionerebianco, griglia));
+                                        mossere.removeAll(h);
+                                    }
+                                }
                             }
-                                int c=0;    //variabile per scorrere il for
+                            int c=0;    //variabile per scorrere il for
                             for(Integer f: mosse){  //pulisco i rossi se ripremo il bottone senza spostare il pezzo
                                 griglia.get(mosse.get(c)).setBackground(griglia.get(mosse.get(c)).getColore());//ripristino il colore dei bottoni non premuti
                                 griglia.get(mosse.get(c)).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto

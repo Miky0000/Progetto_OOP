@@ -17,6 +17,11 @@ public class Re extends PezzoScacchi {
         return img;
     }
 
+    @Override
+    public String toString() {
+        return "Re";
+    }
+
     public Re(String color) {
         this.color = color;
         {
