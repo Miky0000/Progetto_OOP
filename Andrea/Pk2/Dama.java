@@ -250,14 +250,14 @@ public class Dama {
                                 }
                                 turno=!turno;   //cambio turno
                                 if (pezzineri==0) {
-                                    JOptionPane.showMessageDialog(f, "vittoria di " + giocatore1);
+                                    //JOptionPane.showMessageDialog(f, "vittoria di " + giocatore1);
                                     f.dispose();
-                                    MenùPrincipale nuovo=new MenùPrincipale();
+                                    VittoriaDama vittob=new VittoriaDama(giocatore2);
                                 }
                                 if (pezzibianchi==0) {
-                                    JOptionPane.showMessageDialog(f, "vittoria di " + giocatore2);
+                                    //JOptionPane.showMessageDialog(f, "vittoria di " + giocatore2);
                                     f.dispose();
-                                    MenùPrincipale nuovo=new MenùPrincipale();
+                                    VittoriaDama vitton=new VittoriaDama(giocatore1);
                                 }
                             }
                         }
@@ -309,10 +309,10 @@ public class Dama {
             }
         });
 
-        p2.setBackground(Color.green);
-        p3.setBackground(Color.green);
-        p6.setBackground(Color.green);
-        p7.setBackground(Color.green);
+        p2.setBackground(Color.cyan);
+        p3.setBackground(Color.cyan);
+        p6.setBackground(Color.cyan);
+        p7.setBackground(Color.cyan);
         //agiungo la scacchiera
         p4.add(p1,BorderLayout.CENTER);
         p4.add(p2,BorderLayout.NORTH);
@@ -354,12 +354,12 @@ public class Dama {
         p5.add(new JLabel());
         p5.add(kib);
         p5.add(new JLabel());
-        p5.setBackground(Color.green);
+        p5.setBackground(Color.cyan);
         gui.add(p5,BorderLayout.WEST);
 
         //attacco il pannello principale al frame
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(700, 600);
+        f.setSize(700, 500);
         f.setVisible(true);
         f.setContentPane(gui);
 

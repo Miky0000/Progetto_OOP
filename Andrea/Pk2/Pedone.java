@@ -44,7 +44,7 @@ public class Pedone extends PezzoScacchi{
     public ArrayList<Integer> getMoves(Integer I, Map<Integer, NWbotton> griglia) {
         ArrayList<Integer> out=new ArrayList<Integer>();
         if(this.color=="black"){
-            if (griglia.get(I+8).getPezzo()==null && I+8<=63)
+            if (griglia.get(I+8).getPezzo()==null)
                 out.add(I+8);
             if (I/8==1 && griglia.get(I+16).getPezzo()==null)
                 out.add(I+16);
@@ -54,7 +54,7 @@ public class Pedone extends PezzoScacchi{
                 out.add(I+9);
         }
         if(this.color=="white"){
-            if (griglia.get(I-8).getPezzo()==null && I-8 >= 0)
+            if (griglia.get(I-8).getPezzo()==null)
                 out.add(I-8);
             if (I/8==6 && griglia.get(I-16).getPezzo()==null)
                 out.add(I-16);
@@ -63,7 +63,6 @@ public class Pedone extends PezzoScacchi{
             if (I%8!=1 && griglia.get(I-9).getPezzo()!=null && griglia.get(I-9).getPezzo().getColor()!=this.color )
                 out.add(I-9);
         }
-
         return out;
     }
 }

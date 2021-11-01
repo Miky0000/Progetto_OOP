@@ -50,9 +50,4 @@ public class NWbotton extends JButton {
         this.index = index;
     }
 
-    public void restore() { // vuoto ma se serve
-    }
-
-    public void restore_color_only() { // come sopra
-    }
 }

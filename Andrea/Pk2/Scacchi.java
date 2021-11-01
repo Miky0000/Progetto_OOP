@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +20,8 @@ public class Scacchi {
 
     //variabili gestione pezzi
     final NWbotton[] traccia = {new NWbotton()};    //NWbotton per tenere traccia
+    //String trasforma[]= {"Regina","Alfiere","cavallo","torre"};
+    //String trascelta= //variabile che deve contenere la stringa scelta
     boolean turno=false; //true=bianco false=nero
     boolean tracciat=true;
 
@@ -69,7 +72,7 @@ public class Scacchi {
 
         this.giocatore1 = giocatore1;
         this.giocatore2 = giocatore2;
-        
+
         //creo le label 1-8
         JLabel label = new JLabel("");
         p2.add(label);
@@ -92,16 +95,14 @@ public class Scacchi {
                             ArrayList<Integer> mosse=b.getPezzo().getMoves(b.getIndex(), griglia);  //genero l'array di mosse possibili
                             System.out.println("setto azione2");
                             b.setActionCommand("azione2");  //setto il bottone premuto in caso non si esegua nessuna mossa cosi da annullare le mosse in seguito
-                                    if(mosse.isEmpty()){
-                                        System.out.println("mosse è vuoto");
-                                    }
-                                    for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
-                                        System.out.println("coloro di rosso");
-                                        griglia.get(f).setBackground(Color.red);
-                                        griglia.get(f).setActionCommand("azione2");
-                                    }
-
-                                //variabile per scorrere il for
+                            if(mosse.isEmpty()){
+                                System.out.println("mosse è vuoto");
+                            }
+                            for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
+                                System.out.println("coloro di rosso");
+                                griglia.get(f).setBackground(Color.red);
+                                griglia.get(f).setActionCommand("azione2");
+                            }
                             for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
                                 if(griglia.get(c).getBackground()==Color.red) {
                                     System.out.println("controllo se ci sono rossi in più");
@@ -133,6 +134,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
+
+
                                     }
                                     if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile
@@ -153,6 +156,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(kin.getPezzo()) && b.getPezzo().getColor().equals(kin.getPezzo().getColor())) {
                                         ++kn;  //incremento la variabile
                                         kin.setText(": "+kn);   //risetto la label
+                                        f.dispose();
+                                        Vittoria vintob=new Vittoria(giocatore2);
                                     }
                                     if(b.getPezzo().equals(peb.getPezzo())&&b.getPezzo().getColor().equals(peb.getPezzo().getColor())) {
                                         ++pb;  //incremento la variabile
@@ -178,6 +183,8 @@ public class Scacchi {
                                     if(b.getPezzo().equals(kib.getPezzo()) && b.getPezzo().getColor().equals(kib.getPezzo().getColor())) {
                                         ++kb;  //incremento la variabile
                                         kib.setText(": "+kb);   //risetto la label
+                                        f.dispose();
+                                        Vittoria vinton=new Vittoria(giocatore1);
                                     }
 
                                 }
@@ -190,24 +197,30 @@ public class Scacchi {
                                 // promozione del pedone
 
                                 if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("black")&& b.getIndex()/8==7) {
-                                    String pezzi[] = {"Regina", "Cavallo"};
+                                    String pezzi[] = {"Regina", "Cavallo","Torre","Alfiere"};
                                     String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
                                     if (scelta.equals("Regina"))
                                         b.setPezzo(new Regina("black"));
-                                    else
+                                    else if (scelta.equals("Cavallo"))
                                         b.setPezzo(new Cavallo("black"));
+                                    else if (scelta.equals("Alfiere"))
+                                        b.setPezzo(new Alfiere("black"));
+                                    else
+                                        b.setPezzo(new Torre("black"));
                                 }
                                 if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("white")&& b.getIndex()/8==0) {
-                                    String pezzi[] = {"Regina", "Cavallo"};
+                                    String pezzi[] = {"Regina", "Cavallo","Torre","Alfiere"};
                                     String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
-                                    if (scelta.equals("Regina"))
-                                        b.setPezzo(new Regina("white"));
-                                    else
-                                        b.setPezzo(new Cavallo("white"));
+                                    switch (scelta) {
+                                        case "Regina" -> b.setPezzo(new Regina("white"));
+                                        case "Cavallo" -> b.setPezzo(new Cavallo("white"));
+                                        case "Alfiere" -> b.setPezzo(new Alfiere("white"));
+                                        default -> b.setPezzo(new Torre("white"));
+                                    }
                                 }
-                                // fine promozione
 
-
+                                scacconero=false;
+                                scaccobianco=false;
                                 HashSet<Integer> h =new HashSet<Integer>(); //tutte le mosse possibili del bianco
                                 if (!turno) {
                                     for (int i = 0; i < 64; i++) {
@@ -219,17 +232,11 @@ public class Scacchi {
                                     }
                                     if (h.contains(posizionerenero))
                                         scacconero = true;
-                                    else
-                                        scacconero=false;
                                     if (scacconero) {
-                                        System.out.println("Scacco al re nero");
+                                        JOptionPane.showMessageDialog(f,"Scacco al re nero");
                                         HashSet<Integer> mossere =new HashSet<Integer>();
                                         mossere.addAll(griglia.get(posizionerenero).getPezzo().getMoves(posizionerenero,griglia));
                                         mossere.removeAll(h);
-                                        if (mossere.isEmpty()){
-                                            JOptionPane.showMessageDialog(f, "Scacco matto. vittoria del Bianco");
-
-                                        }
                                     }
                                 }
                                 else{
@@ -242,20 +249,15 @@ public class Scacchi {
                                     }
                                     if (h.contains(posizionerebianco))
                                         scaccobianco = true;
-                                    else
-                                        scaccobianco = false;
                                     if (scaccobianco) {
-                                        System.out.println("Scacco al re bianco");
+                                        JOptionPane.showMessageDialog(f,"Scacco al re bianco");
                                         HashSet<Integer> mossere = new HashSet<Integer>();
                                         mossere.addAll(griglia.get(posizionerebianco).getPezzo().getMoves(posizionerebianco, griglia));
                                         mossere.removeAll(h);
-                                        if (mossere.isEmpty()) {
-                                            JOptionPane.showMessageDialog(f, "Scacco matto. vittoria del Nero");
-                                        }
                                     }
                                 }
                             }
-                                int c=0;    //variabile per scorrere il for
+                            int c=0;    //variabile per scorrere il for
                             for(Integer f: mosse){  //pulisco i rossi se ripremo il bottone senza spostare il pezzo
                                 griglia.get(mosse.get(c)).setBackground(griglia.get(mosse.get(c)).getColore());//ripristino il colore dei bottoni non premuti
                                 griglia.get(mosse.get(c)).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
@@ -317,7 +319,7 @@ public class Scacchi {
                     kib.setText(": "+kb);
                 }
                 //creo le caselle vuote
-                if (i % 2 == 1) {
+                if (i % 2 == 0) {
                     s.setBackground(Color.black); //nere
                     s.setColore(Color.black);
                 }
@@ -417,10 +419,10 @@ public class Scacchi {
             }
         });
 
-        p2.setBackground(Color.green);
-        p3.setBackground(Color.green);
-        p6.setBackground(Color.green);
-        p7.setBackground(Color.green);
+        p2.setBackground(Color.cyan);
+        p3.setBackground(Color.cyan);
+        p6.setBackground(Color.cyan);
+        p7.setBackground(Color.cyan);
         //agiungo la scacchiera
         p4.add(p1,BorderLayout.CENTER);
         p4.add(p2,BorderLayout.NORTH);
@@ -462,7 +464,7 @@ public class Scacchi {
         p5.add(new JLabel());
         p5.add(kib);
         p5.add(new JLabel());
-        p5.setBackground(Color.green);
+        p5.setBackground(Color.CYAN);
         gui.add(p5,BorderLayout.WEST);
 
         //attacco il pannello principale al frame

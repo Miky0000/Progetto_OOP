@@ -5,6 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class MenùPrincipale implements ActionListener {
 
@@ -50,11 +51,19 @@ public class MenùPrincipale implements ActionListener {
 
         if(e.getSource()==ScacchiButton){
             frame.dispose();
-            SelezionaGiocatore selezione=new SelezionaGiocatore();
+            try {
+                SelezionaGiocatore selezione=new SelezionaGiocatore();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
-        else if (e.getSource()==DamaButton){
+        if(e.getSource()==DamaButton){
             frame.dispose();
-            SelezionaGiocatore_Dama selezione=new SelezionaGiocatore_Dama();
+            try {
+                SelezionaGiocatore_Dama selezione=new SelezionaGiocatore_Dama();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
     }
