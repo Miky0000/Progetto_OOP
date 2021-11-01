@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Vittoria extends JFrame implements ActionListener {
+public class VittoriaDama extends JFrame implements ActionListener {
 
     //String GVincente;
     JLabel giocatorevin=new JLabel();
@@ -25,7 +25,7 @@ public class Vittoria extends JFrame implements ActionListener {
         }
     }
 
-    Vittoria(String GVincente) {
+    VittoriaDama(String GVincente) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,250);
         this.setLayout(null);
@@ -36,13 +36,13 @@ public class Vittoria extends JFrame implements ActionListener {
         giocatorevin.setText(GVincente); //guardare come scrivere l'accapo
         vinto.setBounds(160,60,150,40);
         try {
-            nvittorie=db.executeQuery("SELECT vittorie from mydb.classificascacchi where(nome='"+GVincente+"') ");
+            nvittorie=db.executeQuery("SELECT vittorie from mydb.classificadama where(nome='"+GVincente+"') ");
             nvittorie.next();      //prima di usare un result set usare sempre il .next altrimenti è null
         } catch (SQLException e) {
             e.printStackTrace();
         }
         try {   //aggiorno le vittorie del giocatore vincente
-            db.executeUpdate("UPDATE mydb.classificascacchi set vittorie = "+(nvittorie.getInt("vittorie")+1)+" where(nome='"+GVincente+"')");
+            db.executeUpdate("UPDATE mydb.classificadama set vittorie = "+(nvittorie.getInt("vittorie")+1)+" where(nome='"+GVincente+"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class Vittoria extends JFrame implements ActionListener {
         if(e.getSource()==rigioca){
             this.dispose();
             try {
-                SelezionaGiocatore selezionaGiocatore=new SelezionaGiocatore();
+                SelezionaGiocatore_Dama selezionaGiocatore=new SelezionaGiocatore_Dama();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

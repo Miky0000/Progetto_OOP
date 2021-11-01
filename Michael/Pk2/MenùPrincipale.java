@@ -57,6 +57,14 @@ public class MenùPrincipale implements ActionListener {
                 ex.printStackTrace();
             }
         }
+        if(e.getSource()==DamaButton){
+            frame.dispose();
+            try {
+                SelezionaGiocatore_Dama selezione=new SelezionaGiocatore_Dama();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
 
     }
 }

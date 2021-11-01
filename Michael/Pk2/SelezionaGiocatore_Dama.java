@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class SelezionaGiocatore extends JFrame implements ActionListener {
+public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
 
     boolean g1=true;
     String giocatore1;
@@ -22,7 +22,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
     JButton tornamenu=new JButton("MENU PRINCIPALE");
     JButton Crea=new JButton("Aggiungi Giocatore");
     JLabel sfondo2=new JLabel();
-    Sfondo2 image =new Sfondo2();
+    Sfondo3 image =new Sfondo3();
     Border border= BorderFactory.createLineBorder(Color.black,5);
     JLabel cla=new JLabel("CLASSIFICA");
     JList<String> classifica=new JList<>();
@@ -38,7 +38,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
     }
 
 
-    SelezionaGiocatore() throws SQLException{
+    SelezionaGiocatore_Dama() throws SQLException{
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(550,500);
@@ -46,7 +46,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
         this.setResizable(false);
 
         //resultset
-        ResultSet rs=db.executeQuery("select * from ClassificaScacchi order by vittorie desc");
+        ResultSet rs=db.executeQuery("select * from ClassificaDama order by vittorie desc");
 
         //sfondo
         sfondo2.setBounds(0,0,536,463);
@@ -62,6 +62,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
         tornamenu.addActionListener(this);
         //selezione giocatore
         seleziona.setBounds(25,120,150,40);
+        seleziona.setForeground(Color.green);
         scelta=new JComboBox();
         rs.absolute(0); //setto il resultset al primo record del db
         while(rs.next()){   //scorro il resultset per aggiungere i nomi nel db alla combobox
@@ -121,7 +122,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
             else if(giocatore1!=((String) scelta.getSelectedItem())) {
                 giocatore2 = (String) scelta.getSelectedItem();
                 this.dispose();
-                Scacchi Scacchi=new Scacchi(giocatore1,giocatore2);
+                Dama Dama=new Dama(giocatore1,giocatore2);
             }
             else if(giocatore1==((String) scelta.getSelectedItem())){
                 JOptionPane.showMessageDialog(this,"Non puoi scegliere lo stesso giocatore");
@@ -130,7 +131,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
         }
         if(e.getSource()==Crea){
             try {
-                db.executeUpdate("INSERT INTO `mydb`.`classificascacchi` (`nome`) VALUES ('"+AggiungiGiocatore.getText()+"')");
+                db.executeUpdate("INSERT INTO `mydb`.`classificadama` (`nome`) VALUES ('"+AggiungiGiocatore.getText()+"')");
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -144,7 +145,7 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
         }
         if(e.getSource()==elimina){
             try {
-                db.executeUpdate("DELETE FROM `mydb`.`classificascacchi` WHERE (`nome` = '"+(String) elimina.getSelectedItem()+"');");
+                db.executeUpdate("DELETE FROM `mydb`.`classificadama` WHERE (`nome` = '"+(String) elimina.getSelectedItem()+"');");
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
