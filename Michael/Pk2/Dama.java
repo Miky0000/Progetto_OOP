@@ -26,31 +26,11 @@ public class Dama {
 
     //variabili per tenere conto dei pezzi mangiati
     int pn=0;
-    int tn=0;
-    int cn=0;
-    int an=0;
-    int qn=0;
-    int kn=0;
     int pb=0;
-    int tb=0;
-    int cb=0;
-    int ab=0;
-    int qb=0;
-    int kb=0;
 
     //label per tenere conto dei pezzi mangiati
     NWlabel pen=new NWlabel();
-    NWlabel ton=new NWlabel();
-    NWlabel can=new NWlabel();
-    NWlabel aln=new NWlabel();
-    NWlabel qun=new NWlabel();
-    NWlabel kin=new NWlabel();
     NWlabel peb=new NWlabel();
-    NWlabel tob=new NWlabel();
-    NWlabel cab=new NWlabel();
-    NWlabel alb=new NWlabel();
-    NWlabel qub=new NWlabel();
-    NWlabel kib=new NWlabel();
 
     //creo i pannelli
     JPanel p1=new JPanel(new GridLayout(8,8,2,2));
@@ -112,17 +92,17 @@ public class Dama {
                                             System.out.println("cancella cambio"+griglia.get(c).getIndex());
                                             griglia.get(c).setBackground(griglia.get(c).getColore());//ripristino il colore dei bottoni non premuti
                                             griglia.get(c).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
-                                            if(traccia[0].getPezzo()!=null){
-                                                traccia[0].setActionCommand("azione1");
-                                            }
-                                            else{
-                                                traccia[0].setActionCommand(null);
-                                            }
                                             break;
                                         }
                                     }
                                 }
 
+                            }
+                            if(traccia[0].getPezzo()!=null){
+                                traccia[0].setActionCommand("azione1");
+                            }
+                            else{
+                                traccia[0].setActionCommand(null);
                             }
                             traccia[0]=b;   //tengo traccia del bottone
                         }
@@ -250,12 +230,10 @@ public class Dama {
                                 }
                                 turno=!turno;   //cambio turno
                                 if (pezzineri==0) {
-                                    //JOptionPane.showMessageDialog(f, "vittoria di " + giocatore1);
                                     f.dispose();
                                     VittoriaDama vittob=new VittoriaDama(giocatore2);
                                 }
                                 if (pezzibianchi==0) {
-                                    //JOptionPane.showMessageDialog(f, "vittoria di " + giocatore2);
                                     f.dispose();
                                     VittoriaDama vitton=new VittoriaDama(giocatore1);
                                 }
@@ -309,10 +287,10 @@ public class Dama {
             }
         });
 
-        p2.setBackground(Color.green);
-        p3.setBackground(Color.green);
-        p6.setBackground(Color.green);
-        p7.setBackground(Color.green);
+        p2.setBackground(Color.cyan);
+        p3.setBackground(Color.cyan);
+        p6.setBackground(Color.cyan);
+        p7.setBackground(Color.cyan);
         //agiungo la scacchiera
         p4.add(p1,BorderLayout.CENTER);
         p4.add(p2,BorderLayout.NORTH);
@@ -325,7 +303,6 @@ public class Dama {
         gui.add(tornaindietro,BorderLayout.NORTH);
         //aggiungo i pezzi mangiati
 
-
         p5.add(new JLabel(giocatore1));
         p5.add(new JLabel());
         p5.add(new JLabel(giocatore2));
@@ -334,32 +311,18 @@ public class Dama {
         p5.add(new JLabel());
         p5.add(peb);
         p5.add(new JLabel());
-        p5.add(ton);
-        p5.add(new JLabel());
-        p5.add(tob);
-        p5.add(new JLabel());
-        p5.add(can);
-        p5.add(new JLabel());
-        p5.add(cab);
-        p5.add(new JLabel());
-        p5.add(aln);
-        p5.add(new JLabel());
-        p5.add(alb);
-        p5.add(new JLabel());
-        p5.add(qun);
-        p5.add(new JLabel());
-        p5.add(qub);
-        p5.add(new JLabel());
-        p5.add(kin);
-        p5.add(new JLabel());
-        p5.add(kib);
-        p5.add(new JLabel());
-        p5.setBackground(Color.green);
+        for(int i=0;i<20;++i){
+            p5.add(new JLabel());
+        }
+
+        p5.setBackground(Color.cyan);
+        p5.setSize(100,50);
         gui.add(p5,BorderLayout.WEST);
+
 
         //attacco il pannello principale al frame
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(700, 600);
+        f.setSize(700, 500);
         f.setVisible(true);
         f.setContentPane(gui);
 

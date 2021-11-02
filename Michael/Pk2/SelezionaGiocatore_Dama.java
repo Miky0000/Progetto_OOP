@@ -14,10 +14,10 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
     boolean g1=true;
     String giocatore1;
     String giocatore2;
-    JLabel seleziona=new JLabel("Seleziona Giocatore");
-    JLabel eliminag=new JLabel("Elimina Giocatore");
-    JComboBox scelta=new JComboBox();
-    JComboBox elimina=new JComboBox();
+    JButton seleziona=new JButton("Seleziona Giocatore");
+    JButton eliminag=new JButton("Elimina Giocatore");
+    JComboBox <String> scelta=new JComboBox<>();
+    JComboBox <String> elimina=new JComboBox<>();
     JTextField AggiungiGiocatore=new JTextField(" Nuovo Giocatore");
     JButton tornamenu=new JButton("MENU PRINCIPALE");
     JButton Crea=new JButton("Aggiungi Giocatore");
@@ -26,7 +26,7 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
     Border border= BorderFactory.createLineBorder(Color.black,5);
     JLabel cla=new JLabel("CLASSIFICA");
     JList<String> classifica=new JList<>();
-    DefaultListModel model=new DefaultListModel();
+    DefaultListModel <String> model=new DefaultListModel<>();
     DBManager db;
 
     {
@@ -61,14 +61,14 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
         tornamenu.setFocusable(false);
         tornamenu.addActionListener(this);
         //selezione giocatore
-        seleziona.setBounds(25,120,150,40);
-        seleziona.setForeground(Color.green);
-        scelta=new JComboBox();
+        seleziona.setBounds(25,120,150,30);
+        seleziona.setFocusable(false);
+        scelta=new JComboBox<>();
         rs.absolute(0); //setto il resultset al primo record del db
         while(rs.next()){   //scorro il resultset per aggiungere i nomi nel db alla combobox
             scelta.addItem(rs.getString("nome"));
         }
-        scelta.setBounds(145,126,150,30);
+        scelta.setBounds(190,120,150,30);
         scelta.setFocusable(false);
         scelta.addActionListener(this);
         //aggiunta nuovo giocatore
@@ -77,13 +77,14 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
         Crea.addActionListener(this);
         AggiungiGiocatore.setBounds(190,200,150,32);
         //elimina giocatore
-        eliminag.setBounds(25,265,150,40);
-        elimina=new JComboBox();
+        eliminag.setBounds(25,271,150,30);
+        eliminag.setFocusable(false);
+        elimina=new JComboBox<>();
         rs.absolute(0);
         while(rs.next()){
             elimina.addItem(rs.getString("nome"));
         }
-        elimina.setBounds(145,271,150,30);
+        elimina.setBounds(190,271,150,30);
         elimina.setFocusable(false);
         elimina.addActionListener(this);
         //classifica
@@ -130,6 +131,22 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
             System.out.println(giocatore1 +" "+ giocatore2);
         }
         if(e.getSource()==Crea){
+            boolean n=true;
+            try {
+                ResultSet rs=db.executeQuery("select * from classificadama order by vittorie desc");
+                while (rs.next()){
+                    if(rs.getString("nome").equals(AggiungiGiocatore.getText())){       //controllo che il giocatore da aggiungere non sia già esistente
+                        n=false;
+                    }
+                }
+                if(n==false){
+                    JOptionPane.showMessageDialog(this,"Giocatore già esistente");
+                    return;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
             try {
                 db.executeUpdate("INSERT INTO `mydb`.`classificadama` (`nome`) VALUES ('"+AggiungiGiocatore.getText()+"')");
             } catch (SQLException ex) {
@@ -138,6 +155,21 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
             scelta.addItem(AggiungiGiocatore.getText());
             elimina.addItem(AggiungiGiocatore.getText());
             AggiungiGiocatore.setText(" Nuovo Giocatore");
+
+            // aggiorno classifica
+            try {
+                ResultSet rs=db.executeQuery("select * from classificadama order by vittorie desc");
+                rs.absolute(0);
+                model.removeAllElements();
+                while(rs.next()) {
+
+                    model.addElement(rs.getString("nome") + " -->  " + rs.getInt("vittorie"));
+                }
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
         }
         if(e.getSource()==tornamenu){
             this.dispose();
@@ -151,6 +183,21 @@ public class SelezionaGiocatore_Dama extends JFrame implements ActionListener {
             }
             scelta.removeItem(elimina.getSelectedItem());
             elimina.removeItem(elimina.getSelectedItem());
+
+            //aggiorno classifica
+            try {
+                ResultSet rs=db.executeQuery("select * from classificadama order by vittorie desc");
+                rs.absolute(0);
+                model.removeAllElements();
+                while(rs.next()) {
+
+                    model.addElement(rs.getString("nome") + " -->  " + rs.getInt("vittorie"));
+                }
+            }
+            catch (SQLException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 }

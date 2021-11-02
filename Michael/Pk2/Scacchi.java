@@ -105,22 +105,23 @@ public class Scacchi {
                             }
                             for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
                                 if(griglia.get(c).getBackground()==Color.red) {
+
                                     System.out.println("controllo se ci sono rossi in più");
                                     for(Integer j:mosse){
                                         if(!mosse.contains(griglia.get(c).getIndex())){ //controllo che le mosse che non sono valide e le ripristino
                                             System.out.println("cancella cambio"+griglia.get(c).getIndex());
                                             griglia.get(c).setBackground(griglia.get(c).getColore());//ripristino il colore dei bottoni non premuti
                                             griglia.get(c).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
-                                            if(traccia[0].getPezzo()!=null){
-                                                traccia[0].setActionCommand("azione1");
-                                            }
-                                            else{
-                                                traccia[0].setActionCommand(null);
-                                            }
                                             break;
                                         }
                                     }
                                 }
+                            }
+                            if(traccia[0].getPezzo()!=null){        //setto il pezzo non premuto ad azione1
+                                traccia[0].setActionCommand("azione1");
+                            }
+                            else{       //setto il bottone senza pezzo non premuto a null
+                                traccia[0].setActionCommand(null);
                             }
                             traccia[0]=b;   //tengo traccia del bottone
                         }
@@ -134,8 +135,6 @@ public class Scacchi {
                                     if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
-                                        //JOptionPane.showInputDialog(f,"Seleziona Pezzo:","Nuovo pezzo",JOptionPane.PLAIN_MESSAGE,null,trasforma,"Regina");
-
                                     }
                                     if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile
@@ -193,6 +192,34 @@ public class Scacchi {
                                 traccia[0].setActionCommand(null);     //annullo actioncommad
                                 traccia[0].setPezzo(null);
                                 tracciat=false;
+
+                                // promozione del pedone
+
+                                if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("black")&& b.getIndex()/8==7) {
+                                    String pezzi[] = {"Regina", "Cavallo","Torre","Alfiere"};
+                                    String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
+                                    if (scelta.equals("Regina"))
+                                        b.setPezzo(new Regina("black"));
+                                    else if (scelta.equals("Cavallo"))
+                                        b.setPezzo(new Cavallo("black"));
+                                    else if (scelta.equals("Alfiere"))
+                                        b.setPezzo(new Alfiere("black"));
+                                    else
+                                        b.setPezzo(new Torre("black"));
+                                }
+                                if (b.getPezzo().toString().equals("Pedone") && b.getPezzo().getColor().equals("white")&& b.getIndex()/8==0) {
+                                    String pezzi[] = {"Regina", "Cavallo","Torre","Alfiere"};
+                                    String scelta = (String) JOptionPane.showInputDialog(f,"trasfoma in: \n","Trasforma pedone", JOptionPane.INFORMATION_MESSAGE, null, pezzi,pezzi[0]);
+                                    switch (scelta) {
+                                        case "Regina" -> b.setPezzo(new Regina("white"));
+                                        case "Cavallo" -> b.setPezzo(new Cavallo("white"));
+                                        case "Alfiere" -> b.setPezzo(new Alfiere("white"));
+                                        default -> b.setPezzo(new Torre("white"));
+                                    }
+                                }
+
+                                scacconero=false;
+                                scaccobianco=false;
                                 HashSet<Integer> h =new HashSet<Integer>(); //tutte le mosse possibili del bianco
                                 if (!turno) {
                                     for (int i = 0; i < 64; i++) {
@@ -391,10 +418,10 @@ public class Scacchi {
             }
         });
 
-        p2.setBackground(Color.green);
-        p3.setBackground(Color.green);
-        p6.setBackground(Color.green);
-        p7.setBackground(Color.green);
+        p2.setBackground(Color.cyan);
+        p3.setBackground(Color.cyan);
+        p6.setBackground(Color.cyan);
+        p7.setBackground(Color.cyan);
         //agiungo la scacchiera
         p4.add(p1,BorderLayout.CENTER);
         p4.add(p2,BorderLayout.NORTH);
@@ -436,7 +463,7 @@ public class Scacchi {
         p5.add(new JLabel());
         p5.add(kib);
         p5.add(new JLabel());
-        p5.setBackground(Color.green);
+        p5.setBackground(Color.CYAN);
         gui.add(p5,BorderLayout.WEST);
 
         //attacco il pannello principale al frame

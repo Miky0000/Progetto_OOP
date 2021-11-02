@@ -46,7 +46,7 @@ public class Pedone extends PezzoScacchi{
         if(this.color=="black"){
             if (griglia.get(I+8).getPezzo()==null)
                 out.add(I+8);
-            if (I/8==1 && griglia.get(I+16).getPezzo()==null)
+            if (I/8==1 && griglia.get(I+16).getPezzo()==null && griglia.get(I+8).getPezzo()==null)
                 out.add(I+16);
             if (I%8!=1 && griglia.get(I+7).getPezzo()!=null && griglia.get(I+7).getPezzo().getColor()!=this.color )
                 out.add(I+7);
@@ -56,7 +56,7 @@ public class Pedone extends PezzoScacchi{
         if(this.color=="white"){
             if (griglia.get(I-8).getPezzo()==null)
                 out.add(I-8);
-            if (I/8==6 && griglia.get(I-16).getPezzo()==null)
+            if (I/8==6 && griglia.get(I-16).getPezzo()==null && griglia.get(I+8).getPezzo()==null)
                 out.add(I-16);
             if (I%8!=7 && griglia.get(I-7).getPezzo()!=null && griglia.get(I-7).getPezzo().getColor()!=this.color )
                 out.add(I-7);
