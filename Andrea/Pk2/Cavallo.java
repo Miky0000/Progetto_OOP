@@ -34,11 +34,6 @@ public class Cavallo extends PezzoScacchi {
     }
 
     @Override
-    public String toString() {
-        return "Cavallo";
-    }
-
-    @Override
     public ArrayList<Integer> getMoves(Integer I, Map<Integer, NWbotton> griglia) {
         ArrayList<Integer>out = new ArrayList<Integer>();
 

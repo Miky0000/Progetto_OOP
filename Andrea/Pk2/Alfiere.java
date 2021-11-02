@@ -95,6 +95,5 @@ public class Alfiere extends PezzoScacchi {
 
             return out;
         }
-
     }
 

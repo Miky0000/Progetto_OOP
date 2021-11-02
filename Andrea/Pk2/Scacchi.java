@@ -105,22 +105,23 @@ public class Scacchi {
                             }
                             for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
                                 if(griglia.get(c).getBackground()==Color.red) {
+
                                     System.out.println("controllo se ci sono rossi in più");
                                     for(Integer j:mosse){
                                         if(!mosse.contains(griglia.get(c).getIndex())){ //controllo che le mosse che non sono valide e le ripristino
                                             System.out.println("cancella cambio"+griglia.get(c).getIndex());
                                             griglia.get(c).setBackground(griglia.get(c).getColore());//ripristino il colore dei bottoni non premuti
                                             griglia.get(c).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
-                                            if(traccia[0].getPezzo()!=null){
-                                                traccia[0].setActionCommand("azione1");
-                                            }
-                                            else{
-                                                traccia[0].setActionCommand(null);
-                                            }
                                             break;
                                         }
                                     }
                                 }
+                            }
+                            if(traccia[0].getPezzo()!=null){        //setto il pezzo non premuto ad azione1
+                                traccia[0].setActionCommand("azione1");
+                            }
+                            else{       //setto il bottone senza pezzo non premuto a null
+                                traccia[0].setActionCommand(null);
                             }
                             traccia[0]=b;   //tengo traccia del bottone
                         }
@@ -134,8 +135,6 @@ public class Scacchi {
                                     if(b.getPezzo().equals(pen.getPezzo()) && b.getPezzo().getColor().equals(pen.getPezzo().getColor())) {
                                         ++pn;  //incremento la variabile
                                         pen.setText(": "+pn);   //risetto la label
-
-
                                     }
                                     if(b.getPezzo().equals(ton.getPezzo()) && b.getPezzo().getColor().equals(ton.getPezzo().getColor())) {
                                         ++tn;  //incremento la variabile

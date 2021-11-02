@@ -84,9 +84,4 @@ public class Torre extends PezzoScacchi {
             out.add(tmpx+tmpy*8);
         return out;
     }
-
-    @Override
-    public String toString() {
-        return "Torre";
-    }
 }
