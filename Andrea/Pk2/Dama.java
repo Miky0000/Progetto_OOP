@@ -94,9 +94,10 @@ public class Dama {
                         if(e.getActionCommand()=="azione2"){
                             ArrayList<Integer> mosse=traccia[0].getPezzo().getMoves(griglia, traccia[0].getIndex());    //genero l'array di mosse possibili del pedone traccia
                             System.out.println("azione2");
-                            if(b.getIndex()!=traccia[0].getIndex()) // se ho premuto un pezzo diverso
+                            if(b.getIndex()!=traccia[0].getIndex()) // se ho premuto un pezzo diverso rispetto ad azione1
                             {
-                                if (b.getBackground()==Color.RED) {
+                                if (b.getBackground()==Color.RED) // la pedina si sposta di uno spazio
+                                {
                                     b.setPezzo(traccia[0].getPezzo());  //setto pezzo
                                     traccia[0].setIcon(null);   //cancello immagine
                                     traccia[0].setActionCommand(null);     //annullo actioncommad
@@ -117,13 +118,17 @@ public class Dama {
                                     traccia[0].setPezzo(null);
                                     tracciat = false;
 
-                                    for (int i =0; i<64; i++){
+                                    for (int i =0; i<64; i++) //cancello il colore rosso/verde in altri bottoni
+                                    {
                                         if (griglia.get(i).getBackground()!=griglia.get(i).getColore())
                                             griglia.get(i).setBackground(Color.black);
                                     }
+
+                                    //localizzare la pedina mangiata e poi cancellarla dalla scacchiera
+
                                     int dx= b.getIndex()%8 - traccia[0].getIndex()%8;
                                     int dy= b.getIndex()/8 - traccia[0].getIndex()/8;
-                                    if (dx>0 && dy>0) // in alto a dx rispetto al pezzo mangiato
+                                    if (dx>0 && dy>0) // se la pedina che ha mangiato è in alto a dx rispetto al pezzo mangiato, allora cancella la pedina in basso a sx
                                     {
                                         Damabotton altropezzo=griglia.get(b.getIndex()-9);
                                         if (altropezzo.getPezzo().getColor().equals("white")){
@@ -136,7 +141,7 @@ public class Dama {
                                         altropezzo.setActionCommand(null);     //annullo actioncommad
                                         altropezzo.setPezzo(null);
                                     }
-                                    else if (dx<0 && dy>0) // in alto a sx rispetto al pezzo mangiato
+                                    else if (dx<0 && dy>0) //  se la pedina che ha mangiato è in alto a sx rispetto al pezzo mangiato, allora cancella la pedina in basso a dx
                                     {
                                         Damabotton altropezzo=griglia.get(b.getIndex()-7);
                                         if (altropezzo.getPezzo().getColor().equals("white"))
@@ -147,7 +152,7 @@ public class Dama {
                                         altropezzo.setActionCommand(null);     //annullo actioncommad
                                         altropezzo.setPezzo(null);
                                     }
-                                    else if (dx<0 && dy<0) // in basso a sx rispetto al pezzo mangiato
+                                    else if (dx<0 && dy<0) // se la pedina che ha mangiato è in basso a sx rispetto al pezzo mangiato, allora cancella la pedina in alto a dx
                                     {
                                         Damabotton altropezzo=griglia.get(b.getIndex()+9);
                                         if (altropezzo.getPezzo().getColor().equals("white"))
@@ -158,7 +163,7 @@ public class Dama {
                                         altropezzo.setActionCommand(null);     //annullo actioncommad
                                         altropezzo.setPezzo(null);
                                     }
-                                    else // in basso a dx rispetto al pezzo mangiato
+                                    else // se la pedina che ha mangiato è in basso a dx rispetto al pezzo mangiato, allora cancella la pedina in alto a sx
                                     {
                                         Damabotton altropezzo=griglia.get(b.getIndex()+7);
                                         if (altropezzo.getPezzo().getColor().equals("white"))
@@ -169,14 +174,21 @@ public class Dama {
                                         altropezzo.setActionCommand(null);     //annullo actioncommad
                                         altropezzo.setPezzo(null);
                                     }
+
+                                    //aggiorno le label
                                     peb.setText(": "+pezzibianchi);
                                     pen.setText(": "+pezzineri);
+
+                                    //controllo la promozione
                                     if(b.getIndex()/8==0 && b.getPezzo().getColor().equals("white")){
                                         b.setPezzo(new Damone("white"));
                                     }
                                     if(b.getIndex()/8==7 && b.getPezzo().getColor().equals("black")){
                                         b.setPezzo(new Damone("black"));
                                     }
+
+                                    //ricorsione: se ci sono altre pedine che possono essere mangiate, DEVONO essere mangiate
+
                                     ArrayList<Integer> altremosse=b.getPezzo().getMoreMoves(b.getIndex(),griglia);
                                     if (!altremosse.isEmpty())
                                     {

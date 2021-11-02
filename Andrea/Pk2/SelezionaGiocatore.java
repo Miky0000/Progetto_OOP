@@ -119,6 +119,8 @@ public class SelezionaGiocatore extends JFrame implements ActionListener {
             if(g1==true){
                 giocatore1= (String) scelta.getSelectedItem();
                 g1=false;
+                JOptionPane.showMessageDialog(this,"Scegli giocatore 2");
+
             }
             else if(giocatore1!=((String) scelta.getSelectedItem())) {
                 giocatore2 = (String) scelta.getSelectedItem();

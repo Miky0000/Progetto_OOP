@@ -54,7 +54,7 @@ public class PedinaDama extends PezzoDama{
             if (x>=0 && x<=6 && tmpy<=7 && griglia.get((tmpx+8*tmpy)).getPezzo()==null)
                 out.add(tmpx+8*tmpy);
         }
-        out.addAll(this.getMoreMoves(I,griglia));
+
         return out;
     }
 
