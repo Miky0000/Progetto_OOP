@@ -66,8 +66,10 @@ public class Dama {
                     public void actionPerformed(ActionEvent e) {
                         Damabotton b=(Damabotton) e.getSource();
                         if(e.getActionCommand()=="azione1"){    //premo un pezzo
-                            ArrayList<Integer> mosse=b.getPezzo().getMoves(griglia, b.getIndex());//genero l'array di mosse possibili
-                            ArrayList<Integer> moremosse=b.getPezzo().getMoreMoves(b.getIndex(), griglia);
+                            if (b.getPezzo()==null)
+                                return;
+                            ArrayList<Integer> mosse=b.getPezzo().getMoves(griglia, b.getIndex());// array di mosse di spostamento di una casella
+                            ArrayList<Integer> moremosse=b.getPezzo().getMoreMoves(b.getIndex(), griglia); // array di mosse che implicano la mangiata di un pezzo avversario
                             System.out.println("setto azione2");
                             b.setActionCommand("azione2");  //setto il bottone premuto in caso non si esegua nessuna mossa cosi da annullare le mosse in seguito
                             if(mosse.isEmpty()){
@@ -76,50 +78,45 @@ public class Dama {
                             for (Integer f : mosse) {   //setto le mosse possibili a rosso ed ad azione2
                                 System.out.println("coloro di rosso");
                                 griglia.get(f).setBackground(Color.red);
-                                griglia.get(f).setActionCommand("azione2");
+
                             }
                             for (Integer f:moremosse){
                                 griglia.get(f).setBackground(Color.GREEN);
-                                griglia.get(f).setActionCommand("azione2");
                             }
+                            for (int i=0; i<64; i++)
+                                griglia.get(i).setActionCommand("azione2");
 
-                            //variabile per scorrere il for
-                            for(int c=0;c<64;++c){  //setto il colore normale quando cambio mossa
-                                if(griglia.get(c).getBackground()==Color.red) {
-                                    System.out.println("controllo se ci sono rossi in più");
-                                    for(Integer j:mosse){
-                                        if(!mosse.contains(griglia.get(c).getIndex())){ //controllo che le mosse che non sono valide e le ripristino
-                                            System.out.println("cancella cambio"+griglia.get(c).getIndex());
-                                            griglia.get(c).setBackground(griglia.get(c).getColore());//ripristino il colore dei bottoni non premuti
-                                            griglia.get(c).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
-                                            break;
-                                        }
-                                    }
-                                }
 
-                            }
-                            if(traccia[0].getPezzo()!=null){
-                                traccia[0].setActionCommand("azione1");
-                            }
-                            else{
-                                traccia[0].setActionCommand(null);
-                            }
+
                             traccia[0]=b;   //tengo traccia del bottone
                         }
 
-                        if(e.getActionCommand()=="azione2"){    //sposto il pezzo sul rosso
+                        if(e.getActionCommand()=="azione2"){
                             ArrayList<Integer> mosse=traccia[0].getPezzo().getMoves(griglia, traccia[0].getIndex());    //genero l'array di mosse possibili del pedone traccia
                             System.out.println("azione2");
-                            if(b.getIndex()!=traccia[0].getIndex()) {
-                                b.setPezzo(traccia[0].getPezzo());  //setto pezzo
-                                traccia[0].setIcon(null);   //cancello immagine
-                                traccia[0].setActionCommand(null);     //annullo actioncommad
-                                traccia[0].setPezzo(null);
-                                tracciat=false;
-
-
-                                if(b.getBackground()==Color.GREEN) // se viene mangiato un pezzo
+                            if(b.getIndex()!=traccia[0].getIndex()) // se ho premuto un pezzo diverso
+                            {
+                                if (b.getBackground()==Color.RED) {
+                                    b.setPezzo(traccia[0].getPezzo());  //setto pezzo
+                                    traccia[0].setIcon(null);   //cancello immagine
+                                    traccia[0].setActionCommand(null);     //annullo actioncommad
+                                    traccia[0].setPezzo(null);
+                                    tracciat = false;
+                                    if(b.getIndex()/8==0 && b.getPezzo().getColor().equals("white")){
+                                        b.setPezzo(new Damone("white"));
+                                    }
+                                    if(b.getIndex()/8==7 && b.getPezzo().getColor().equals("black")){
+                                        b.setPezzo(new Damone("black"));
+                                    }
+                                }
+                                else if(b.getBackground()==Color.GREEN) // se viene mangiato un pezzo
                                 {
+                                    b.setPezzo(traccia[0].getPezzo());  //setto pezzo
+                                    traccia[0].setIcon(null);   //cancello immagine
+                                    traccia[0].setActionCommand(null);     //annullo actioncommad
+                                    traccia[0].setPezzo(null);
+                                    tracciat = false;
+
                                     for (int i =0; i<64; i++){
                                         if (griglia.get(i).getBackground()!=griglia.get(i).getColore())
                                             griglia.get(i).setBackground(Color.black);
@@ -129,8 +126,10 @@ public class Dama {
                                     if (dx>0 && dy>0) // in alto a dx rispetto al pezzo mangiato
                                     {
                                         Damabotton altropezzo=griglia.get(b.getIndex()-9);
-                                        if (altropezzo.getPezzo().getColor().equals("white"))
+                                        if (altropezzo.getPezzo().getColor().equals("white")){
                                             pezzibianchi--;
+                                            peb.setText(": "+pb);
+                                        }
                                         else
                                             pezzineri--;
                                         altropezzo.setIcon(null);   //cancello immagine
@@ -170,6 +169,8 @@ public class Dama {
                                         altropezzo.setActionCommand(null);     //annullo actioncommad
                                         altropezzo.setPezzo(null);
                                     }
+                                    peb.setText(": "+pezzibianchi);
+                                    pen.setText(": "+pezzineri);
                                     if(b.getIndex()/8==0 && b.getPezzo().getColor().equals("white")){
                                         b.setPezzo(new Damone("white"));
                                     }
@@ -190,27 +191,49 @@ public class Dama {
                                 }
                                 else
                                 {
-                                    if(b.getIndex()/8==0 && b.getPezzo().getColor().equals("white")){
-                                        b.setPezzo(new Damone("white"));
+                                    traccia[0].setActionCommand("azione1");
+                                    b.setActionCommand("azione1");
+                                    mosse.addAll(traccia[0].getPezzo().getMoreMoves(traccia[0].getIndex(),griglia));
+                                    for (Integer i:mosse) {
+                                        griglia.get(i).setBackground(griglia.get(i).getColore());
+                                        griglia.get(i).setActionCommand("azione1");
                                     }
-                                    if(b.getIndex()/8==7 && b.getPezzo().getColor().equals("black")){
-                                        b.setPezzo(new Damone("black"));
+                                    if (turno == true) {   //turno neri
+                                        for (int k = 0; k < 64; ++k) {
+                                            griglia.get(k).setBackground(griglia.get(k).getColore());
+                                            if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "black") {
+                                                griglia.get(k).setActionCommand("azione1");
+
+                                            } else {
+                                                griglia.get(k).setActionCommand(null);
+                                            }
+                                        }
+                                    } else {  //turno bianchi
+                                        for (int k = 0; k < 64; ++k) {
+                                            griglia.get(k).setBackground(griglia.get(k).getColore());
+                                            if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "white") {
+                                                griglia.get(k).setActionCommand("azione1");
+                                            } else
+                                            {
+                                                griglia.get(k).setActionCommand(null);
+                                            }
+                                        }
                                     }
                                 }
 
                             }
-                            int c=0;    //variabile per scorrere il for
-                            for(Integer f: mosse){  //pulisco i rossi se ripremo il bottone senza spostare il pezzo
-                                griglia.get(mosse.get(c)).setBackground(griglia.get(mosse.get(c)).getColore());//ripristino il colore dei bottoni non premuti
-                                griglia.get(mosse.get(c)).setActionCommand(null);   //ripristino il setacitoncommand dei bottoni rossi non premuti e anche quello premuto
-                                ++c;
-                            }
-                            b.setActionCommand("azione1");  //setto il bottone rosso appena premuto ad azione1
-                            if(tracciat==false) {   //gestione turno
-                                tracciat=true;
-                                System.out.println("cambio turno");
-                                if (turno == false) {   //turno neri
+                            else
+                            {
+                                System.out.println(turno);
+                                b.setActionCommand("azione1");
+                                mosse.addAll(b.getPezzo().getMoreMoves(b.getIndex(),griglia));
+                                for (Integer i:mosse) {
+                                    griglia.get(i).setBackground(griglia.get(i).getColore());
+                                    griglia.get(i).setActionCommand("azione1");
+                                }
+                                if (turno == true) {   //turno neri
                                     for (int k = 0; k < 64; ++k) {
+                                        griglia.get(k).setBackground(griglia.get(k).getColore());
                                         if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "black") {
                                             griglia.get(k).setActionCommand("azione1");
 
@@ -220,15 +243,75 @@ public class Dama {
                                     }
                                 } else {  //turno bianchi
                                     for (int k = 0; k < 64; ++k) {
+                                        griglia.get(k).setBackground(griglia.get(k).getColore());
                                         if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "white") {
                                             griglia.get(k).setActionCommand("azione1");
-                                            //System.out.println(k+"-"+traccia[0].getIndex());
+                                        } else {
+                                            griglia.get(k).setActionCommand(null);
+                                        }
+                                    }
+                                }
+                            }
+
+                            if(tracciat==false) {   //gestione turno
+                                tracciat=true;
+                                System.out.println("cambio turno");
+                                if (turno == false) {   //turno neri
+                                    for (int k = 0; k < 64; ++k) {
+                                        griglia.get(k).setBackground(griglia.get(k).getColore());
+                                        if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "black") {
+                                            griglia.get(k).setActionCommand("azione1");
+
+                                        } else {
+                                            griglia.get(k).setActionCommand(null);
+                                        }
+                                    }
+                                } else {  //turno bianchi
+                                    for (int k = 0; k < 64; ++k) {
+                                        griglia.get(k).setBackground(griglia.get(k).getColore());
+                                        if (griglia.get(k).getPezzo()!=null && griglia.get(k).getPezzo().getColor() == "white") {
+                                            griglia.get(k).setActionCommand("azione1");
                                         } else {
                                             griglia.get(k).setActionCommand(null);
                                         }
                                     }
                                 }
                                 turno=!turno;   //cambio turno
+
+                                if (turno) //appena finito il turno bianco
+                                {
+                                    ArrayList<Integer> mossedisp= new ArrayList<>();
+                                    for (int i=0; i<64; i++)
+                                    {
+                                        Damabotton Button=griglia.get(i);
+                                        if (Button.getPezzo()!=null && Button.getPezzo().getColor().equals("black")){
+                                            mossedisp.addAll(Button.getPezzo().getMoves(griglia,i));
+                                            mossedisp.addAll(Button.getPezzo().getMoreMoves(i,griglia));
+                                        }
+                                        if (!mossedisp.isEmpty()){
+                                            break;
+                                        }
+                                    }
+                                    if (mossedisp.isEmpty())
+                                        pezzineri=0;
+                                }
+                                else //appena finito il turno nero
+                                {
+                                    ArrayList<Integer> mossedisp= new ArrayList<>();
+                                    for (int i=0; i<64; i++) //controllo che ci siano mosse disponibili
+                                    {
+                                        Damabotton Button=griglia.get(i);
+                                        if (Button.getPezzo()!=null && Button.getPezzo().getColor().equals("white")){
+                                            mossedisp.addAll(Button.getPezzo().getMoves(griglia,i));
+                                            mossedisp.addAll(Button.getPezzo().getMoreMoves(i,griglia));
+                                        }
+                                        if (!mossedisp.isEmpty()){
+                                            break;
+                                        }
+                                    }
+                                    if (mossedisp.isEmpty())
+                                        pezzibianchi=0;
+                                }
                                 if (pezzineri==0) {
                                     f.dispose();
                                     VittoriaDama vittob=new VittoriaDama(giocatore2);
@@ -244,10 +327,10 @@ public class Dama {
 
                 if(i==0){   //creo i contatori per i pezzi mangiati
                     pen.setPezzo(new PedinaDama("black"));
-                    pen.setText(": "+pn);
+                    pen.setText(": "+pezzineri);
 
                     peb.setPezzo(new PedinaDama("white"));
-                    peb.setText(": "+pb);
+                    peb.setText(": "+pezzibianchi);
 
                 }
                 //creo le caselle vuote

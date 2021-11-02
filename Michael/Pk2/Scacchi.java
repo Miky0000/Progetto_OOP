@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,8 +19,6 @@ public class Scacchi {
 
     //variabili gestione pezzi
     final NWbotton[] traccia = {new NWbotton()};    //NWbotton per tenere traccia
-    //String trasforma[]= {"Regina","Alfiere","cavallo","torre"};
-    //String trascelta= //variabile che deve contenere la stringa scelta
     boolean turno=false; //true=bianco false=nero
     boolean tracciat=true;
 
