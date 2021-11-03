@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Dama"},{"l":"Dama.Pedine"},{"l":"Main"},{"l":"Scacchi"},{"l":"Scacchi.Pedine"},{"l":"Utils"}];updateSearchResults();
