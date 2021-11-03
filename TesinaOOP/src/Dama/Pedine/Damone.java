@@ -93,6 +93,11 @@ public class Damone extends PezzoDama {
     }
 
     @Override
+    public String toString() {
+        return "Damone";
+    }
+
+    @Override
     public ArrayList<Integer> getMoves(Integer I, Map<Integer, NWbotton> griglia) {
         return null;
     }

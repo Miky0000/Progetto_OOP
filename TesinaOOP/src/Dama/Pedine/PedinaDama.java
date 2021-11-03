@@ -67,6 +67,11 @@ public class PedinaDama extends PezzoDama {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "Dama";
+    }
+
     public ArrayList<Integer> getMoreMoves(Integer i, Map<Integer, Damabotton> griglia){
         ArrayList<Integer> out= new ArrayList<>();
         int x=i%8;
@@ -79,7 +84,7 @@ public class PedinaDama extends PezzoDama {
             tmpx=x-1;
             tmpy=y-1;
             int altroindex=tmpx+tmpy*8;
-            if (x>=2 && tmpy >= 0 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color))){
+            if (x>=2 && tmpy >= 0 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color)) && this.toString().equals(griglia.get(altroindex).getPezzo().toString())){
                 altroindex= (tmpx-1)+(tmpy-1)*8;
                 if (altroindex >= 0 && altroindex <= 63){
                     if (griglia.get(altroindex).getPezzo()==null)
@@ -91,7 +96,7 @@ public class PedinaDama extends PezzoDama {
             tmpy=y-1;
             tmpx=x+1;
             altroindex=tmpx+tmpy*8;
-            if (x<=5 && tmpy>=0 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color))){
+            if (x<=5 && tmpy>=0 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color)) && this.toString().equals(griglia.get(altroindex).getPezzo().toString())){
                 altroindex= (tmpx+1)+(tmpy-1)*8;
                 if (altroindex >= 0 && altroindex <= 63){
                 if (griglia.get(altroindex).getPezzo()==null)
@@ -105,7 +110,7 @@ public class PedinaDama extends PezzoDama {
             tmpx=x-1;
             tmpy=y+1;
             int altroindex=tmpx+tmpy*8;
-            if (x>=2 && tmpy<=7 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color))){
+            if (x>=2 && tmpy<=7 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color)) && this.toString().equals(griglia.get(altroindex).getPezzo().toString())){
                 altroindex= (tmpx-1)+(tmpy+1)*8;
                 if (altroindex >= 0 && altroindex <= 63){
                     if (griglia.get(altroindex).getPezzo()==null)
@@ -117,7 +122,7 @@ public class PedinaDama extends PezzoDama {
             tmpy=y+1;
             tmpx=x+1;
             altroindex=tmpx+tmpy*8;
-            if (x<=5 && tmpy<=7 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color))){
+            if (x<=5 && tmpy<=7 && griglia.get((altroindex)).getPezzo()!=null && !(griglia.get(altroindex).getPezzo().getColor().equals(this.color)) && this.toString().equals(griglia.get(altroindex).getPezzo().toString())){
                 altroindex= (tmpx+1)+(tmpy+1)*8;
                 if (altroindex >= 0 && altroindex <= 63){
                     if (griglia.get(altroindex).getPezzo()==null)
